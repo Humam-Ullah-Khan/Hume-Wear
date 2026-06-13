@@ -13,7 +13,7 @@
 </head>
 <body class="min-h-screen flex">
     <div class="hidden md:block w-1/2 bg-stone-100">
-        <img src="{{ asset('images/Login-Page.webp') }}" alt="Women Fashion" class="w-full h-screen object-cover">
+        <img src="{{ asset('images/admin-bg.webp') }}" alt="Women Fashion" class="w-full h-screen object-cover">
     </div>
 
     <div class="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
