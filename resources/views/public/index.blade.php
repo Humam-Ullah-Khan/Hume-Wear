@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Mariab - Women\'s Fashion & Accessories')
+@section('title', "Hume Wear - Women's Fashion & Accessories")
 
 @section('content')
 <div class="bg-stone-100">

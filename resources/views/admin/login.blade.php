@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Mariab</title>
+    <title>Admin Login - Hume Wear</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -13,7 +13,7 @@
 </head>
 <body class="flex items-center justify-center min-h-screen">
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h1 class="text-3xl font-bold text-center mb-2" style="font-family: 'Playfair Display', serif;">MARIAB</h1>
+        <h1 class="text-3xl font-bold text-center mb-2" style="font-family: 'Playfair Display', serif;">HUME WEAR</h1>
         <p class="text-center text-stone-500 text-sm mb-8">Admin Login</p>
 
         @if ($errors->any())
