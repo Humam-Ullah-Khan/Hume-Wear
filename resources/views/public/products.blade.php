@@ -3,7 +3,7 @@
 @section('title', 'Shop - Hume Wear')
 
 @section('content')
-<div class="max-w-[1400px] mx-auto px-6 py-12">
+<div class="max-w-[1400px] mx-auto px-6 pt-32 pb-12">
     <div class="mb-10">
         <h1 class="text-3xl md:text-4xl font-bold text-stone-900">Our Collection</h1>
         <p class="text-stone-500 mt-2">Browse our latest arrivals</p>
@@ -45,4 +45,25 @@
         @endforelse
     </div>
 </div>
+
+<script>
+    (function() {
+        var nav = document.getElementById('main-nav');
+        if (nav) {
+            nav.dataset.alwaysScrolled = '';
+            nav.classList.remove('at-top');
+            nav.classList.add('scrolled');
+            var topBar = document.getElementById('top-bar');
+            if (topBar) topBar.classList.add('hidden-bar');
+        }
+        document.querySelectorAll('.nav-text').forEach(function(el) {
+            el.classList.remove('text-white');
+            el.classList.add('text-stone-900');
+        });
+        document.querySelectorAll('.nav-icon').forEach(function(el) {
+            el.classList.remove('text-white');
+            el.classList.add('text-stone-900');
+        });
+    })();
+</script>
 @endsection
