@@ -30,7 +30,7 @@
             @forelse($products as $product)
             <tr>
                 <td class="px-6 py-4">
-                    <img src="{{ $product->image ? asset('storage/' . $product->image) : 'https://placehold.co/60x60/eee/999?text=N/A' }}" class="w-12 h-12 object-cover rounded">
+                    <img src="{{ $product->primary_image ? asset('storage/' . $product->primary_image) : ($product->image ? asset('storage/' . $product->image) : 'https://placehold.co/60x60/eee/999?text=N/A') }}" class="w-12 h-12 object-cover rounded">
                 </td>
                 <td class="px-6 py-4 font-medium">{{ $product->title }}</td>
                 <td class="px-6 py-4">PKR {{ number_format($product->price, 2) }}</td>

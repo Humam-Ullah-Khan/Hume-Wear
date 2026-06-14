@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminSettingController;
 use App\Http\Controllers\ProductController;
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
@@ -28,5 +29,8 @@ Route::prefix('admin')->group(function () {
             'update' => 'admin.products.update',
             'destroy' => 'admin.products.destroy',
         ]);
+
+        Route::get('/settings', [AdminSettingController::class, 'index'])->name('admin.settings.index');
+        Route::put('/settings', [AdminSettingController::class, 'update'])->name('admin.settings.update');
     });
 });

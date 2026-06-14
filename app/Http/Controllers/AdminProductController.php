@@ -23,15 +23,36 @@ class AdminProductController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'brand' => 'nullable|max:255',
             'description' => 'required',
             'price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+            'discount_type' => 'nullable|in:fixed,percent',
             'size' => 'nullable|max:50',
+            'colors' => 'nullable',
+            'tags' => 'nullable',
             'category' => 'nullable|max:100',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
+            'visibility' => 'nullable|in:published,schedule,hidden',
+            'publish_date' => 'nullable|date',
+            'primary_image' => 'nullable|numeric',
         ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $imagePaths[] = $file->store('products', 'public');
+            }
+        }
+
+        $validated['images'] = !empty($imagePaths) ? json_encode($imagePaths) : null;
+
+        if (!empty($imagePaths)) {
+            $primaryIdx = (int) $request->input('primary_image', 0);
+            $selectedIndex = isset($imagePaths[$primaryIdx]) ? $primaryIdx : 0;
+            $validated['image'] = $imagePaths[$selectedIndex];
+            $validated['primary_image'] = $imagePaths[$selectedIndex];
         }
 
         Product::create($validated);
@@ -48,18 +69,58 @@ class AdminProductController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'brand' => 'nullable|max:255',
             'description' => 'required',
             'price' => 'required|numeric|min:0',
+            'discount' => 'nullable|numeric|min:0',
+            'discount_type' => 'nullable|in:fixed,percent',
             'size' => 'nullable|max:50',
+            'colors' => 'nullable',
+            'tags' => 'nullable',
             'category' => 'nullable|max:100',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
+            'visibility' => 'nullable|in:published,schedule,hidden',
+            'publish_date' => 'nullable|date',
+            'primary_image' => 'nullable',
+            'remove_images' => 'nullable',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+        $existingImages = $product->images ?? [];
+        $newImages = [];
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $newImages[] = $file->store('products', 'public');
             }
-            $validated['image'] = $request->file('image')->store('products', 'public');
+        }
+
+        $removeImages = json_decode($request->input('remove_images', '[]'), true) ?? [];
+        $existingImages = array_values(array_diff($existingImages, $removeImages));
+
+        foreach ($removeImages as $img) {
+            if ($img && Storage::disk('public')->exists($img)) {
+                Storage::disk('public')->delete($img);
+            }
+        }
+
+        $allImages = array_merge($existingImages, $newImages);
+        $validated['images'] = !empty($allImages) ? json_encode($allImages) : null;
+
+        $primaryInput = $request->input('primary_image');
+        if ($primaryInput !== null) {
+            if (strpos($primaryInput, 'new_') === 0) {
+                $newIdx = (int) str_replace('new_', '', $primaryInput);
+                if (isset($newImages[$newIdx])) {
+                    $validated['image'] = $newImages[$newIdx];
+                    $validated['primary_image'] = $newImages[$newIdx];
+                }
+            } else {
+                if (in_array($primaryInput, $allImages)) {
+                    $validated['image'] = $primaryInput;
+                    $validated['primary_image'] = $primaryInput;
+                }
+            }
         }
 
         $product->update($validated);
@@ -69,8 +130,12 @@ class AdminProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+        $allImages = $product->images ?? [];
+        $allImages[] = $product->image;
+        foreach (array_filter(array_unique($allImages)) as $img) {
+            if ($img && Storage::disk('public')->exists($img)) {
+                Storage::disk('public')->delete($img);
+            }
         }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');

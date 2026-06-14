@@ -5,10 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Hume Wear</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'Roba';
+            src: url('/fonts/roba/Roba-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Montserrat', sans-serif; font-weight: 400; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+        .font-logo { font-family: 'Roba', sans-serif; text-transform: capitalize; }
     </style>
 </head>
 <body class="min-h-screen flex">
@@ -18,7 +28,7 @@
 
     <div class="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
         <div class="w-full max-w-sm">
-            <h1 class="text-4xl font-bold text-stone-900 mb-1" style="font-family: 'Playfair Display', serif;">HUME WEAR</h1>
+            <h1 class="text-4xl font-bold text-stone-900 mb-1 font-logo">HUME WEAR</h1>
             <p class="text-stone-400 text-sm mb-10">Admin Panel</p>
 
             @if ($errors->any())
