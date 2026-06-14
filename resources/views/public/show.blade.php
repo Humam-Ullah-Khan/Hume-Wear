@@ -36,7 +36,7 @@
     }
 @endphp
 
-<div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-32 pb-6">
     {{-- Breadcrumb --}}
     <div class="flex items-center gap-2 text-xs text-stone-400 mb-6">
         <a href="{{ url('/') }}" class="hover:text-stone-900 transition">Home</a>
