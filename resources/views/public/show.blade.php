@@ -311,5 +311,25 @@
         if (e.key === 'ArrowLeft') prevImage();
         if (e.key === 'ArrowRight') nextImage();
     });
+
+    // Force navbar to scrolled state (no dark hero on this page)
+    (function() {
+        var nav = document.getElementById('main-nav');
+        if (nav) {
+            nav.dataset.alwaysScrolled = '';
+            nav.classList.remove('at-top');
+            nav.classList.add('scrolled');
+            var topBar = document.getElementById('top-bar');
+            if (topBar) topBar.classList.add('hidden-bar');
+        }
+        document.querySelectorAll('.nav-text').forEach(function(el) {
+            el.classList.remove('text-white');
+            el.classList.add('text-stone-900');
+        });
+        document.querySelectorAll('.nav-icon').forEach(function(el) {
+            el.classList.remove('text-white');
+            el.classList.add('text-stone-900');
+        });
+    })();
 </script>
 @endsection

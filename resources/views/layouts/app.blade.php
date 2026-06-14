@@ -250,7 +250,7 @@
         const navIcons = document.querySelectorAll('.nav-icon');
 
         function updateNav() {
-            if (window.scrollY > 50) {
+            if (window.scrollY > 50 || nav.dataset.alwaysScrolled !== undefined) {
                 topBar.classList.add('hidden-bar');
                 nav.classList.add('scrolled');
                 nav.classList.remove('at-top');
