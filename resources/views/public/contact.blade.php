@@ -86,7 +86,7 @@
         </div>
         <h3 class="text-xl font-bold text-stone-900 mb-2">Message Sent!</h3>
         <p class="text-stone-500 text-sm mb-6">{{ session('success') }}</p>
-        <button onclick="closePopup()" class="bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+        <button onclick="closePopup()" class="btn-hover bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
             Done
         </button>
     </div>
@@ -108,7 +108,7 @@
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-        <button onclick="closeErrorPopup()" class="bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+        <button onclick="closeErrorPopup()" class="btn-hover bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
             Try Again
         </button>
     </div>
@@ -153,7 +153,7 @@
                         </div>
 
                         {{-- Submit --}}
-                        <button type="submit" class="w-full bg-stone-900 text-white py-3.5 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+                        <button type="submit" class="btn-hover w-full bg-stone-900 text-white py-3.5 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
                             Send Message
                         </button>
                     </form>

@@ -45,10 +45,10 @@
     <div class="flex items-center justify-between mb-10">
         <h2 class="text-3xl md:text-4xl font-bold text-stone-900">Shop By Category</h2>
         <div class="flex items-center gap-2" id="category-nav-btns">
-            <button onclick="scrollCategories('left')" class="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:border-stone-400 hover:text-stone-900 transition">
+            <button onclick="scrollCategories('left')" class="btn-hover w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:border-stone-400 hover:text-stone-900 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="scrollCategories('right')" class="w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:border-stone-400 hover:text-stone-900 transition">
+            <button onclick="scrollCategories('right')" class="btn-hover w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 hover:border-stone-400 hover:text-stone-900 transition">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
             </button>
         </div>
@@ -122,7 +122,7 @@
         @endforeach
     </div>
     <div class="text-center mt-12">
-        <a href="{{ url('/products') }}" class="inline-block border border-stone-900 text-stone-900 px-10 py-3 hover:bg-stone-900 hover:text-white transition text-sm uppercase tracking-[0.2em] font-medium">View All</a>
+        <a href="{{ url('/products') }}" class="inline-block border border-stone-900 text-stone-900 px-10 py-3 hover:bg-stone-900 hover:text-white btn-hover-outline transition text-sm uppercase tracking-[0.2em] font-medium">View All</a>
     </div>
 </div>
 
@@ -143,7 +143,7 @@
                 <p class="text-sm font-bold tracking-[0.15em] text-stone-800 uppercase mb-4">New Products</p>
                 <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-stone-900 mb-6 uppercase leading-tight break-words">{{ $newArrival->title }}</h2>
 
-                <a href="{{ route('products.show', $newArrival) }}" class="inline-block bg-stone-900 text-white px-10 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-[0.2em] font-bold">Buy Now</a>
+                <a href="{{ route('products.show', $newArrival) }}" class="btn-hover inline-block bg-stone-900 text-white px-10 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-[0.2em] font-bold">Buy Now</a>
             </div>
         </div>
     </div>
@@ -157,7 +157,7 @@
         <div class="text-center">
             <p class="text-white/80 text-sm tracking-[0.3em] uppercase mb-4">Exclusive Collection</p>
             <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-wider">TIMELESS ELEGANCE</h2>
-            <a href="{{ url('/products') }}" class="inline-block border border-white text-white px-10 py-3 hover:bg-white hover:text-stone-950 transition text-sm uppercase tracking-[0.2em] font-medium">Explore Now</a>
+            <a href="{{ url('/products') }}" class="btn-hover-light inline-block border border-white text-white px-10 py-3 hover:bg-white hover:text-stone-950 transition text-sm uppercase tracking-[0.2em] font-medium">Explore Now</a>
         </div>
     </div>
 </div>
@@ -171,7 +171,7 @@
         <form action="{{ route('newsletter.store') }}" method="POST" class="flex gap-0">
             @csrf
             <input type="email" name="email" required placeholder="Enter your email" class="flex-1 px-5 py-3 border border-stone-300 border-r-0 focus:outline-none focus:border-stone-500 text-sm bg-white">
-            <button type="submit" class="bg-stone-900 text-white px-8 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-wider font-medium">Subscribe</button>
+            <button type="submit" class="btn-hover bg-stone-900 text-white px-8 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-wider font-medium">Subscribe</button>
         </form>
     </div>
 </div>
@@ -188,7 +188,7 @@
         </div>
         <h3 class="text-xl font-bold text-stone-900 mb-2">You're Subscribed!</h3>
         <p class="text-stone-500 text-sm mb-6">{{ session('newsletter_success') }}</p>
-        <button onclick="closeNewsletterPopup()" class="bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+        <button onclick="closeNewsletterPopup()" class="btn-hover bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
             Done
         </button>
     </div>
