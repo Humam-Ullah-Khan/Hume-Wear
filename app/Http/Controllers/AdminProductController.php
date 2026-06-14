@@ -36,6 +36,7 @@ class AdminProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
             'visibility' => 'nullable|in:draft,published',
             'primary_image' => 'nullable|numeric',
+            'notes' => 'nullable|string',
         ]);
 
         $imagePaths = [];
@@ -81,6 +82,7 @@ class AdminProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
             'visibility' => 'nullable|in:draft,published',
             'primary_image' => 'nullable',
+            'notes' => 'nullable|string',
             'remove_images' => 'nullable',
         ]);
 
