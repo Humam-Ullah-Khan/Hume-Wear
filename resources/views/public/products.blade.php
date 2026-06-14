@@ -12,7 +12,7 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
         @forelse($products as $product)
         @php
-            $images = $product->images ?? [];
+            $images = is_array($product->images) ? $product->images : [];
             $primary = $product->primary_image ? asset('storage/' . $product->primary_image) : ($product->image ? asset('storage/' . $product->image) : 'https://placehold.co/400x500/f5f0eb/1c1917?text=' . urlencode($product->title));
             $hoverImage = null;
             if(count($images) > 0) {

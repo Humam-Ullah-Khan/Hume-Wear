@@ -88,7 +88,7 @@
                     </div>
                     <div class="grid grid-cols-3 gap-2" id="image-preview-container">
                         @php
-                            $existingImages = $product->images ?? [];
+                            $existingImages = is_array($product->images) ? $product->images : [];
                             $currentPrimary = $product->primary_image ?? $product->image ?? '';
                         @endphp
                         @foreach($existingImages as $idx => $img)
@@ -134,23 +134,21 @@
         const container = document.getElementById('image-preview-container');
 
         Array.from(input.files).forEach((file) => {
+            const idx = newUploadedCount++;
             const reader = new FileReader();
             reader.onload = function(e) {
                 const div = document.createElement('div');
                 div.className = 'col-span-1 aspect-square rounded-lg overflow-hidden relative group';
-                div.setAttribute('data-new', newUploadedCount);
+                div.setAttribute('data-new', idx);
                 div.innerHTML = `
                     <img src="${e.target.result}" class="w-full h-full object-cover">
                     <button type="button" onclick="removeNewImage(this)" class="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full text-xs opacity-0 group-hover:opacity-100 transition flex items-center justify-center">&times;</button>
                     <button type="button" onclick="setNewPrimary(this)" class="absolute bottom-1 left-1 w-6 h-6 bg-white/80 text-stone-600 rounded-full text-sm flex items-center justify-center transition hover:bg-blue-500 hover:text-white">☆</button>
                 `;
                 container.appendChild(div);
-                newUploadedCount++;
             };
             reader.readAsDataURL(file);
         });
-
-        input.value = '';
     }
 
     function setExistingPrimary(imgPath, btn) {
@@ -182,9 +180,17 @@
     function removeExistingImage(imgPath, btn) {
         const div = btn.closest('div[data-existing]');
         if (div) {
+            const wasPrimary = document.getElementById('primary-image-input').value === imgPath;
             div.remove();
             removedImages.push(imgPath);
             document.getElementById('remove-images-input').value = JSON.stringify(removedImages);
+            if (wasPrimary) {
+                const firstRemaining = document.querySelector('#image-preview-container > div[data-existing] button:last-child');
+                const firstNew = document.querySelector('#image-preview-container > div[data-new] button:last-child');
+                if (firstRemaining) firstRemaining.click();
+                else if (firstNew) firstNew.click();
+                else document.getElementById('primary-image-input').value = '';
+            }
         }
     }
 

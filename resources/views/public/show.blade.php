@@ -4,7 +4,7 @@
 
 @section('content')
 @php
-    $allImages = $product->images ?? [];
+    $allImages = is_array($product->images) ? $product->images : [];
     $mainImage = $product->primary_image
         ? asset('storage/' . $product->primary_image)
         : ($product->image

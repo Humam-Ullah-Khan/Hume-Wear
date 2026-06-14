@@ -187,11 +187,11 @@
     function previewImages(input) {
         const container = document.getElementById('image-preview-container');
 
-        Array.from(input.files).forEach((file, index) => {
+        Array.from(input.files).forEach((file) => {
+            const idx = uploadedFiles.length;
             uploadedFiles.push(file);
             const reader = new FileReader();
             reader.onload = function(e) {
-                const idx = uploadedFiles.length - 1;
                 const div = document.createElement('div');
                 div.className = 'col-span-1 aspect-square rounded-lg overflow-hidden relative group';
                 div.setAttribute('data-index', idx);
@@ -207,7 +207,6 @@
             reader.readAsDataURL(file);
         });
 
-        input.value = '';
         updatePrimaryInput();
     }
 
@@ -229,8 +228,14 @@
         const el = btn.closest('div[data-index]');
         if (el) el.remove();
         if (primaryImageIndex === index) {
-            primaryImageIndex = 0;
-            updatePrimaryInput();
+            const firstRemaining = document.querySelector('#image-preview-container > div[data-index]');
+            if (firstRemaining) {
+                const star = firstRemaining.querySelector('button:last-child');
+                if (star) star.click();
+            } else {
+                primaryImageIndex = 0;
+                updatePrimaryInput();
+            }
         }
     }
 

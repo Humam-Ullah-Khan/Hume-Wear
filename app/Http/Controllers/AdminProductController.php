@@ -86,7 +86,7 @@ class AdminProductController extends Controller
             'remove_images' => 'nullable',
         ]);
 
-        $existingImages = $product->images ?? [];
+        $existingImages = is_array($product->images) ? $product->images : [];
         $newImages = [];
 
         if ($request->hasFile('images')) {
@@ -130,7 +130,7 @@ class AdminProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $allImages = $product->images ?? [];
+        $allImages = is_array($product->images) ? $product->images : [];
         $allImages[] = $product->image;
         foreach (array_filter(array_unique($allImages)) as $img) {
             if ($img && Storage::disk('public')->exists($img)) {
