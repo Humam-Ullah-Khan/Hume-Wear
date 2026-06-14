@@ -48,11 +48,11 @@
         <span class="text-stone-700 truncate max-w-[200px]">{{ $product->title }}</span>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
+    <div class="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start">
         {{-- Left: Image Gallery --}}
-        <div class="lg:sticky lg:top-28 lg:self-start">
+        <div class="w-full lg:w-1/2 lg:sticky lg:top-28">
             {{-- Main Image Container with fixed 3:4 aspect ratio --}}
-            <div class="relative group w-full overflow-hidden bg-[#f5f0eb] rounded-sm" style="padding-bottom: 133.33%;">
+            <div id="image-container" class="relative group w-full overflow-hidden bg-[#f5f0eb] rounded-sm" style="height:0;padding-bottom:133.33%">
                 <img id="main-product-image" src="{{ $mainImage }}" alt="{{ $product->title }}" class="absolute inset-0 w-full h-full object-cover transition duration-500">
 
                 @if($discountPercent)
@@ -96,7 +96,7 @@
         </div>
 
         {{-- Right: Product Details --}}
-        <div class="flex flex-col">
+        <div class="w-full lg:w-1/2 flex flex-col">
             {{-- Brand + SKU --}}
             <div class="flex items-start justify-between mb-2">
                 <div>
@@ -122,18 +122,6 @@
                 @else
                     <span class="text-2xl sm:text-3xl font-bold text-stone-900">Rs.{{ number_format($product->price, 0) }}</span>
                 @endif
-            </div>
-
-            {{-- Shipping Info --}}
-            <div class="bg-stone-50 border border-stone-100 rounded-lg p-4 mb-6 space-y-2">
-                <div class="flex items-center gap-3 text-sm">
-                    <svg class="w-4 h-4 text-stone-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
-                    <span class="text-stone-600">Shipping Time: <strong class="text-stone-800">3-5 BUSINESS DAYS</strong></span>
-                </div>
-                <div class="flex items-center gap-3 text-sm">
-                    <svg class="w-4 h-4 text-stone-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span class="text-stone-600">Making Time: <strong class="text-stone-800">7-14 BUSINESS DAYS</strong></span>
-                </div>
             </div>
 
             {{-- Size Selector --}}
@@ -305,6 +293,23 @@
         content.classList.toggle('hidden');
         icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
     }
+
+    // Enforce fixed aspect ratio on image container
+    (function fixImageHeight() {
+        const container = document.getElementById('image-container');
+        if (!container) return;
+        const setHeight = () => {
+            const w = container.offsetWidth;
+            container.style.height = (w * 4 / 3) + 'px';
+            container.style.paddingBottom = '0';
+        };
+        setHeight();
+        if (window.ResizeObserver) {
+            new ResizeObserver(setHeight).observe(container);
+        } else {
+            window.addEventListener('resize', setHeight);
+        }
+    })();
 
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
