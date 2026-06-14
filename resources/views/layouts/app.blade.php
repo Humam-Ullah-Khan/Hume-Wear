@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
-            font-family: 'Roba';
-            src: url('/fonts/roba/Roba-Regular.ttf') format('truetype');
+            font-family: 'hago-demo';
+            src: url('/fonts/hago-demo/Hago DEMO.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -19,7 +19,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; font-weight: 400; background: #fafaf9; color: #1c1917; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
-        .font-logo { font-family: 'Roba', sans-serif; text-transform: capitalize; }
+        .font-logo { font-family: 'hago-demo', sans-serif; text-transform: capitalize; }
 
         .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; }
         .hero-slide.active { opacity: 1; }
@@ -139,7 +139,7 @@
 
     {{-- Search Panel --}}
     <div class="panel-overlay fixed inset-0 bg-black/40 z-[70]" id="search-overlay" onclick="closeSearch()"></div>
-    <div class="search-panel fixed top-0 right-0 w-full max-w-md h-full bg-white z-[71] shadow-2xl" id="search-panel">
+    <div class="search-panel fixed top-0 right-0 w-full max-w-md h-full bg-white z-[71] shadow-2xl overflow-y-auto" id="search-panel">
         <div class="p-8">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-lg font-bold tracking-wider">SEARCH YOUR FAVOURITE</h2>
@@ -149,22 +149,26 @@
                     </svg>
                 </button>
             </div>
-            <div class="relative mb-10">
-                <input type="text" id="search-input" placeholder="Search" class="w-full px-5 py-3 pr-12 border border-stone-200 rounded-lg focus:outline-none focus:border-stone-400 text-sm">
+            <div class="relative mb-6">
+                <input type="text" id="search-input" placeholder="Search by name, brand, code..." class="w-full px-5 py-3 pr-12 border border-stone-200 rounded-lg focus:outline-none focus:border-stone-400 text-sm" oninput="handleSearch(this.value)">
                 <button class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-900">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </button>
             </div>
-            <div>
+
+            <div id="search-loading" class="hidden text-center py-4 text-stone-400 text-sm">Searching...</div>
+            <div id="search-results"></div>
+
+            <div id="search-suggestions">
                 <h3 class="text-xs font-bold tracking-wider text-stone-800 mb-4">SUGGESTIONS FOR YOU</h3>
                 <ul class="space-y-4">
-                    <li><a href="#" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">FALL WINTER'25</a></li>
-                    <li><a href="#" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">SIGNATURE</a></li>
-                    <li><a href="#" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">LUXURY</a></li>
-                    <li><a href="#" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">READY TO WEAR</a></li>
-                    <li><a href="#" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">ACCESSORIES</a></li>
+                    <li><a href="/products?category=Fall+Winter" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">FALL WINTER'25</a></li>
+                    <li><a href="/products?category=Signature" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">SIGNATURE</a></li>
+                    <li><a href="/products?category=Luxury" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">LUXURY</a></li>
+                    <li><a href="/products?category=Ready+to+Wear" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">READY TO WEAR</a></li>
+                    <li><a href="/products?category=Accessories" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">ACCESSORIES</a></li>
                 </ul>
             </div>
         </div>
@@ -239,6 +243,59 @@
         function closeSearch() {
             document.getElementById('search-overlay').classList.remove('open');
             document.getElementById('search-panel').classList.remove('open');
+        }
+
+        let searchTimeout = null;
+        function handleSearch(value) {
+            clearTimeout(searchTimeout);
+            const resultsDiv = document.getElementById('search-results');
+            const loadingDiv = document.getElementById('search-loading');
+            const suggestionsDiv = document.getElementById('search-suggestions');
+
+            if (value.trim().length < 2) {
+                resultsDiv.innerHTML = '';
+                loadingDiv.classList.add('hidden');
+                suggestionsDiv.classList.remove('hidden');
+                return;
+            }
+
+            suggestionsDiv.classList.add('hidden');
+            loadingDiv.classList.remove('hidden');
+
+            searchTimeout = setTimeout(function() {
+                fetch('/search?q=' + encodeURIComponent(value.trim()))
+                    .then(res => res.json())
+                    .then(products => {
+                        loadingDiv.classList.add('hidden');
+                        if (products.length === 0) {
+                            resultsDiv.innerHTML = '<p class="text-sm text-stone-400 text-center py-4">No products found</p>';
+                            return;
+                        }
+                        let html = '';
+                        products.forEach(function(p) {
+                            let priceHtml = 'PKR ' + Number(p.price).toLocaleString();
+                            if (p.discount && p.discount > 0) {
+                                let discountPrice = p.discount_type === 'percent'
+                                    ? p.price - (p.price * p.discount / 100)
+                                    : p.price - p.discount;
+                                priceHtml = '<span class="text-red-600 font-semibold">PKR ' + Number(Math.round(discountPrice)).toLocaleString() + '</span> <span class="line-through text-stone-400 ml-1">PKR ' + Number(p.price).toLocaleString() + '</span>';
+                            }
+                            html += '<a href="' + p.url + '" class="flex items-center gap-4 py-3 border-b border-stone-100 hover:bg-stone-50 transition rounded-lg px-2 -mx-2">' +
+                                '<img src="' + p.image + '" class="w-14 h-18 object-cover rounded">' +
+                                '<div class="flex-1 min-w-0">' +
+                                    '<p class="text-sm font-medium text-stone-800 truncate">' + p.title + '</p>' +
+                                    (p.unique_code ? '<p class="text-xs text-stone-400 mt-0.5">' + p.unique_code + '</p>' : '') +
+                                    '<p class="text-sm mt-1">' + priceHtml + '</p>' +
+                                '</div>' +
+                                '</a>';
+                        });
+                        resultsDiv.innerHTML = html;
+                    })
+                    .catch(function() {
+                        loadingDiv.classList.add('hidden');
+                        resultsDiv.innerHTML = '<p class="text-sm text-stone-400 text-center py-4">Search failed. Try again.</p>';
+                    });
+            }, 300);
         }
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') { closeMenu(); closeSearch(); }

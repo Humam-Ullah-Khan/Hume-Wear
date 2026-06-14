@@ -112,7 +112,7 @@
                 </button>
             </div>
 
-            <p class="text-xs text-stone-400 uppercase tracking-wider mb-5">SKU: MB-{{ str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</p>
+            <p class="text-xs text-stone-400 uppercase tracking-wider mb-5">SKU: {{ $product->unique_code ?? 'HW-' . str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</p>
 
             {{-- Price --}}
             <div class="flex items-center gap-3 mb-6">
@@ -203,13 +203,9 @@
                     </button>
                     <div id="terms-content" class="hidden pb-6">
                         <ul class="text-sm text-stone-600 space-y-1.5 list-disc list-inside">
-                            <li>All orders are made to order.</li>
-                            <li>Making time is approximately 7-14 business days.</li>
-                            <li>International shipping charges apply based on weight and destination.</li>
-                            <li>For orders please contact: orders@humbewear.com</li>
-                            <li>50% deposit required for in-store orders.</li>
-                            <li>No cancellations once order is placed.</li>
-                            <li>No refund or exchange policy applies.</li>
+                            <li>All our products are made to order to ensure the highest quality.</li>
+                            <li>To place an order, please contact us at +92 323 1256645.</li>
+                            <li>A 50% advance payment is required to confirm your order and begin processing.</li>
                         </ul>
                     </div>
                 </div>

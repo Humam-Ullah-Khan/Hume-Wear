@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AdminProductController extends Controller
 {
@@ -23,6 +24,7 @@ class AdminProductController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'unique_code' => 'nullable|max:20|unique:products,unique_code',
             'brand' => 'nullable|max:255',
             'description' => 'required',
             'price' => 'required|numeric|min:0',
@@ -38,6 +40,10 @@ class AdminProductController extends Controller
             'primary_image' => 'nullable|numeric',
             'notes' => 'nullable|string',
         ]);
+
+        if (empty($validated['unique_code'])) {
+            $validated['unique_code'] = $this->generateUniqueCode();
+        }
 
         $imagePaths = [];
         if ($request->hasFile('images')) {
@@ -69,6 +75,7 @@ class AdminProductController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'unique_code' => 'nullable|max:20|unique:products,unique_code,' . $product->id,
             'brand' => 'nullable|max:255',
             'description' => 'required',
             'price' => 'required|numeric|min:0',
@@ -139,5 +146,20 @@ class AdminProductController extends Controller
         }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');
+    }
+
+    private function generateUniqueCode(): string
+    {
+        $lastProduct = Product::whereNotNull('unique_code')
+            ->orderByRaw("CAST(SUBSTRING(unique_code, 4) AS UNSIGNED) DESC")
+            ->first();
+
+        if ($lastProduct && preg_match('/^HW-(\d+)$/', $lastProduct->unique_code, $matches)) {
+            $nextNumber = (int) $matches[1] + 1;
+        } else {
+            $nextNumber = 1;
+        }
+
+        return 'HW-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
     }
 }

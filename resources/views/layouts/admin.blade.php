@@ -8,8 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
-            font-family: 'Roba';
-            src: url('/fonts/roba/Roba-Regular.ttf') format('truetype');
+            font-family: 'hago-demo';
+            src: url('/fonts/hago-demo/Hago DEMO.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -18,7 +18,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; font-weight: 400; background: #f5f5f4; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
-        .font-logo { font-family: 'Roba', sans-serif; text-transform: capitalize; }
+        .font-logo { font-family: 'hago-demo', sans-serif; text-transform: capitalize; }
     </style>
 </head>
 <body>
