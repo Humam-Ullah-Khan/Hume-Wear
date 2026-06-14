@@ -163,107 +163,85 @@
             <div class="mt-16 pt-8 border-t border-stone-100">
                 <h4 class="text-xs font-bold tracking-wider text-stone-400 mb-4">FOLLOW US</h4>
                 <div class="flex gap-4">
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
+                    @if($siteSettings['instagram'])
+                    <a href="{{ $siteSettings['instagram'] }}" class="text-stone-400 hover:text-stone-900 transition">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                     </a>
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    @endif
+                    @if($siteSettings['facebook'])
+                    <a href="{{ $siteSettings['facebook'] }}" class="text-stone-400 hover:text-stone-900 transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </a>
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
+                    @endif
+                    @if($siteSettings['youtube'])
+                    <a href="{{ $siteSettings['youtube'] }}" class="text-stone-400 hover:text-stone-900 transition">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Search Panel --}}
-    <div class="panel-overlay fixed inset-0 bg-black/40 z-[70]" id="search-overlay" onclick="closeSearch()"></div>
-    <div class="search-panel fixed top-0 right-0 w-full max-w-md h-full bg-white z-[71] shadow-2xl overflow-y-auto" id="search-panel">
-        <div class="p-8">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-lg font-bold tracking-wider">SEARCH YOUR FAVOURITE</h2>
-                <button onclick="closeSearch()" class="btn-hover text-stone-400 hover:text-stone-900 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="relative mb-6">
-                <input type="text" id="search-input" placeholder="Search by name, brand, code..." class="w-full px-5 py-3 pr-12 border border-stone-200 rounded-lg focus:outline-none focus:border-stone-400 text-sm" oninput="handleSearch(this.value)">
-                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-900">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div id="search-loading" class="hidden text-center py-4 text-stone-400 text-sm">Searching...</div>
-            <div id="search-results"></div>
-
-            <div id="search-suggestions">
-                <h3 class="text-xs font-bold tracking-wider text-stone-800 mb-4">SUGGESTIONS FOR YOU</h3>
-                <ul class="space-y-4">
-                    <li><a href="/products?category=Fall+Winter" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">FALL WINTER'25</a></li>
-                    <li><a href="/products?category=Signature" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">SIGNATURE</a></li>
-                    <li><a href="/products?category=Luxury" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">LUXURY</a></li>
-                    <li><a href="/products?category=Ready+to+Wear" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">READY TO WEAR</a></li>
-                    <li><a href="/products?category=Accessories" class="text-sm text-stone-600 hover:text-stone-900 transition tracking-wide">ACCESSORIES</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
+    {{-- Hero Section (home page only) --}}
     @yield('hero')
 
+    {{-- Main Content --}}
     <main>
         @yield('content')
     </main>
 
-    <footer class="bg-white border-t border-stone-200 pt-14 pb-8">
-        <div class="max-w-[1400px] mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 mb-14">
-                {{-- Left Side: Logo + Contact --}}
-                <div class="md:col-span-6 lg:col-span-7">
-                    <h3 class="text-3xl md:text-4xl font-bold text-stone-900 mb-5 font-logo tracking-wider">HUME WEAR</h3>
-                    <div class="space-y-1.5 text-sm text-stone-500 leading-relaxed">
-                        <p>Location: Online Business</p>
-                        <p>Call: +92 342 099 0948</p>
-                        <p>WhatsApp: +92 323 125 6645</p>
-                        <p>Email: humamullahkhan001@gmail.com</p>
+    {{-- Footer --}}
+    <footer class="bg-white border-t border-stone-200">
+        <div class="max-w-[1400px] mx-auto px-8 md:px-12 py-14 md:py-20">
+            <div class="flex flex-col md:flex-row md:justify-between gap-12">
+                {{-- Left: Logo + Contact --}}
+                <div class="max-w-md">
+                    <span class="text-4xl md:text-5xl font-bold tracking-[0.25em] font-logo text-stone-900">HUME WEAR</span>
+                    <div class="mt-8 space-y-2 text-sm text-stone-400 leading-relaxed">
+                        <p>Location: {{ $siteSettings['address'] }}</p>
+                        <p>Call: {{ $siteSettings['phone'] }}</p>
+                        <p>WhatsApp: {{ $siteSettings['whatsapp'] }}</p>
+                        <p>Email: {{ $siteSettings['email'] }}</p>
                     </div>
                 </div>
 
-                {{-- Right Side: Links --}}
-                <div class="md:col-span-6 lg:col-span-5 grid grid-cols-1 gap-8">
-                    <div>
-                        <h4 class="text-stone-900 font-bold text-sm mb-4">Customer Care</h4>
-                        <ul class="space-y-2.5 text-sm text-stone-500">
-                            <li><a href="{{ url('/contact') }}" class="hover:text-stone-900 transition">Contact Us</a></li>
-                            <li><a href="#" class="hover:text-stone-900 transition">About Hume Wear</a></li>
-                            <li><a href="{{ url('/products') }}" class="hover:text-stone-900 transition">Shop</a></li>
-                            <li><a href="#" class="hover:text-stone-900 transition">Terms and Conditions</a></li>
-                        </ul>
-                    </div>
+                {{-- Right: Customer Care --}}
+                <div class="md:mr-12">
+                    <h4 class="text-sm font-bold tracking-wide text-stone-900 mb-5">Customer Care</h4>
+                    <nav class="space-y-3">
+                        <a href="#" class="block text-sm text-stone-500 hover:text-stone-900 transition">About Us</a>
+                        <a href="{{ url('/contact') }}" class="block text-sm text-stone-500 hover:text-stone-900 transition">Contact Us</a>
+                        <a href="#" class="block text-sm text-stone-500 hover:text-stone-900 transition">Track Your Order</a>
+                        <a href="#" class="block text-sm text-stone-500 hover:text-stone-900 transition">FAQs</a>
+                    </nav>
                 </div>
             </div>
 
             {{-- Bottom Bar --}}
-            <div class="border-t border-stone-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-stone-400">&copy; {{ date('Y') }} Hume Wear. All rights reserved.</p>
-                <div class="flex items-center gap-3">
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    </a>
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </a>
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
+            <div class="mt-14 pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-stone-400">&copy; {{ date('Y') }} HUME WEAR. All rights reserved.</p>
+                <div class="flex gap-4">
+                    @if($siteSettings['youtube'])
+                    <a href="{{ $siteSettings['youtube'] }}" target="_blank" class="text-stone-400 hover:text-stone-900 transition">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
-                    <a href="#" class="text-stone-400 hover:text-stone-900 transition">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48 6.29 6.29 0 001.84-4.45V8.39a8.16 8.16 0 004.79 1.52V6.46a4.84 4.84 0 01-1.05.23z"/></svg>
+                    @endif
+                    @if($siteSettings['instagram'])
+                    <a href="{{ $siteSettings['instagram'] }}" target="_blank" class="text-stone-400 hover:text-stone-900 transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                     </a>
+                    @endif
+                    @if($siteSettings['facebook'])
+                    <a href="{{ $siteSettings['facebook'] }}" target="_blank" class="text-stone-400 hover:text-stone-900 transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    @endif
+                    @if($siteSettings['tiktok'])
+                    <a href="{{ $siteSettings['tiktok'] }}" target="_blank" class="text-stone-400 hover:text-stone-900 transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>

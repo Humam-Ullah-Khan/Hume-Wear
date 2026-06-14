@@ -115,6 +115,52 @@
             </div>
         </div>
 
+        {{-- Contact Information --}}
+        <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-6">
+            <h2 class="text-lg font-semibold text-stone-800 mb-6">Contact Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">Phone Number</label>
+                    <input type="text" name="contact_phone" value="{{ $settings['contact_phone'] }}" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">WhatsApp Number</label>
+                    <input type="text" name="contact_whatsapp" value="{{ $settings['contact_whatsapp'] }}" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">Email Address</label>
+                    <input type="email" name="contact_email" value="{{ $settings['contact_email'] }}" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">Address / Location</label>
+                    <input type="text" name="contact_address" value="{{ $settings['contact_address'] }}" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+            </div>
+        </div>
+
+        {{-- Social Links --}}
+        <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-6">
+            <h2 class="text-lg font-semibold text-stone-800 mb-6">Social Media Links</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">Instagram URL</label>
+                    <input type="url" name="social_instagram" value="{{ $settings['social_instagram'] }}" placeholder="https://instagram.com/..." class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">Facebook URL</label>
+                    <input type="url" name="social_facebook" value="{{ $settings['social_facebook'] }}" placeholder="https://facebook.com/..." class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">YouTube URL</label>
+                    <input type="url" name="social_youtube" value="{{ $settings['social_youtube'] }}" placeholder="https://youtube.com/..." class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-stone-600 mb-1.5">TikTok URL</label>
+                    <input type="url" name="social_tiktok" value="{{ $settings['social_tiktok'] }}" placeholder="https://tiktok.com/..." class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+            </div>
+        </div>
+
         <div class="flex justify-end">
             <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Save Settings</button>
         </div>

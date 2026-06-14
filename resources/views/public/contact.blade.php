@@ -35,7 +35,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-stone-400 uppercase tracking-wider mb-0.5">Email</p>
-                            <a href="mailto:humamullahkhan001@gmail.com" class="text-sm font-semibold text-stone-800 hover:text-stone-900 transition">humamullahkhan001@gmail.com</a>
+                            <a href="mailto:{{ $siteSettings['email'] }}" class="text-sm font-semibold text-stone-800 hover:text-stone-900 transition">{{ $siteSettings['email'] }}</a>
                         </div>
                     </div>
 
@@ -48,7 +48,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-stone-400 uppercase tracking-wider mb-0.5">WhatsApp</p>
-                            <a href="https://wa.me/923231256645" target="_blank" class="text-sm font-semibold text-stone-800 hover:text-stone-900 transition">+92 323 12 56 645</a>
+                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $siteSettings['whatsapp']) }}" target="_blank" class="text-sm font-semibold text-stone-800 hover:text-stone-900 transition">{{ $siteSettings['whatsapp'] }}</a>
                         </div>
                     </div>
 
@@ -62,7 +62,7 @@
                         </div>
                         <div>
                             <p class="text-xs text-stone-400 uppercase tracking-wider mb-0.5">Location</p>
-                            <p class="text-sm font-semibold text-stone-800">Online Business</p>
+                            <p class="text-sm font-semibold text-stone-800">{{ $siteSettings['address'] }}</p>
                         </div>
                     </div>
 

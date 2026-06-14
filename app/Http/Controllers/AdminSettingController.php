@@ -11,6 +11,7 @@ class AdminSettingController extends Controller
     public function index()
     {
         $settings = [
+            // Hero
             'hero_image_1' => Setting::get('hero_image_1'),
             'hero_image_2' => Setting::get('hero_image_2'),
             'hero_image_3' => Setting::get('hero_image_3'),
@@ -20,6 +21,16 @@ class AdminSettingController extends Controller
             'hero_subtitle_2' => Setting::get('hero_subtitle_2', 'New Arrivals'),
             'hero_title_3' => Setting::get('hero_title_3', 'SUMMER BREEZE'),
             'hero_subtitle_3' => Setting::get('hero_subtitle_3', 'Casual Collection'),
+            // Contact
+            'contact_phone' => Setting::get('contact_phone', '+92 342 099 0948'),
+            'contact_whatsapp' => Setting::get('contact_whatsapp', '+92 323 125 6645'),
+            'contact_email' => Setting::get('contact_email', 'humamullahkhan001@gmail.com'),
+            'contact_address' => Setting::get('contact_address', 'Online Business'),
+            // Social
+            'social_instagram' => Setting::get('social_instagram', ''),
+            'social_facebook' => Setting::get('social_facebook', ''),
+            'social_youtube' => Setting::get('social_youtube', ''),
+            'social_tiktok' => Setting::get('social_tiktok', ''),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -37,6 +48,14 @@ class AdminSettingController extends Controller
             'hero_subtitle_2' => 'nullable|max:255',
             'hero_title_3' => 'nullable|max:255',
             'hero_subtitle_3' => 'nullable|max:255',
+            'contact_phone' => 'nullable|max:50',
+            'contact_whatsapp' => 'nullable|max:50',
+            'contact_email' => 'nullable|email|max:255',
+            'contact_address' => 'nullable|max:255',
+            'social_instagram' => 'nullable|string|max:500',
+            'social_facebook' => 'nullable|string|max:500',
+            'social_youtube' => 'nullable|string|max:500',
+            'social_tiktok' => 'nullable|string|max:500',
         ]);
 
         foreach (['hero_image_1', 'hero_image_2', 'hero_image_3'] as $field) {
