@@ -129,7 +129,7 @@
             <div class="mb-6">
                 <div class="flex items-center justify-between mb-3">
                     <label class="text-sm font-semibold text-stone-800 uppercase tracking-wider">Size</label>
-                    <span class="text-xs text-stone-400 cursor-pointer hover:text-stone-900 transition">Size Guide</span>
+                    <span class="text-xs text-stone-400 cursor-pointer hover:text-stone-900 transition" onclick="showSizeGuide()">Size Guide</span>
                 </div>
                 <div class="flex flex-wrap gap-2">
                     @foreach($sizes as $sizeOption)
@@ -155,8 +155,8 @@
 
             {{-- Info Links --}}
             <div class="border-t border-stone-200 pt-4 space-y-2 mb-8">
-                <p class="text-sm text-stone-500">Delivery & Returns <a href="#" class="text-stone-900 underline font-medium">Click Here.</a></p>
-                <p class="text-sm text-stone-500">Terms and Conditions <a href="#" class="text-stone-900 underline font-medium">Click Here.</a></p>
+                <p class="text-sm text-stone-500">Delivery & Returns <a href="#" onclick="event.preventDefault(); showDeliveryInfo()" class="text-stone-900 underline font-medium">Click Here.</a></p>
+                <p class="text-sm text-stone-500">Terms and Conditions <a href="#" onclick="event.preventDefault(); showTermsInfo()" class="text-stone-900 underline font-medium">Click Here.</a></p>
             </div>
 
             {{-- Accordion Sections --}}
@@ -327,5 +327,112 @@
             el.classList.add('text-stone-900');
         });
     })();
+</script>
+
+{{-- Size Guide Popup --}}
+<div id="size-guide-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closePopup('size-guide-popup')"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8" style="transform: scale(0.95) translateY(10px); transition: transform 0.3s ease;">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-stone-900">Size Guide</h3>
+            <button onclick="closePopup('size-guide-popup')" class="text-stone-400 hover:text-stone-600 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-stone-200">
+                        <th class="text-left py-3 px-4 font-semibold text-stone-700">Size</th>
+                        <th class="text-left py-3 px-4 font-semibold text-stone-700">Chest (inches)</th>
+                        <th class="text-left py-3 px-4 font-semibold text-stone-700">Waist (inches)</th>
+                        <th class="text-left py-3 px-4 font-semibold text-stone-700">Length (inches)</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-stone-100">
+                    <tr><td class="py-3 px-4 font-medium text-stone-800">XS</td><td class="py-3 px-4 text-stone-600">34-36</td><td class="py-3 px-4 text-stone-600">28-30</td><td class="py-3 px-4 text-stone-600">26</td></tr>
+                    <tr><td class="py-3 px-4 font-medium text-stone-800">S</td><td class="py-3 px-4 text-stone-600">36-38</td><td class="py-3 px-4 text-stone-600">30-32</td><td class="py-3 px-4 text-stone-600">27</td></tr>
+                    <tr><td class="py-3 px-4 font-medium text-stone-800">M</td><td class="py-3 px-4 text-stone-600">38-40</td><td class="py-3 px-4 text-stone-600">32-34</td><td class="py-3 px-4 text-stone-600">28</td></tr>
+                    <tr><td class="py-3 px-4 font-medium text-stone-800">L</td><td class="py-3 px-4 text-stone-600">40-42</td><td class="py-3 px-4 text-stone-600">34-36</td><td class="py-3 px-4 text-stone-600">29</td></tr>
+                    <tr><td class="py-3 px-4 font-medium text-stone-800">XL</td><td class="py-3 px-4 text-stone-600">42-44</td><td class="py-3 px-4 text-stone-600">36-38</td><td class="py-3 px-4 text-stone-600">30</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-xs text-stone-400 mt-4 text-center">All measurements are approximate. For a perfect fit, contact us on WhatsApp.</p>
+    </div>
+</div>
+
+{{-- Delivery & Returns Popup --}}
+<div id="delivery-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closePopup('delivery-popup')"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8" style="transform: scale(0.95) translateY(10px); transition: transform 0.3s ease;">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-stone-900">Delivery & Returns</h3>
+            <button onclick="closePopup('delivery-popup')" class="text-stone-400 hover:text-stone-600 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="space-y-5 text-sm text-stone-600">
+            <div>
+                <h4 class="font-semibold text-stone-800 mb-1">Delivery</h4>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>All orders are made to order with a making time of 7-14 business days.</li>
+                    <li>Once dispatched, delivery within Pakistan takes 3-5 business days.</li>
+                    <li>International shipping charges apply based on weight and destination.</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-stone-800 mb-1">Returns & Exchanges</h4>
+                <ul class="space-y-1 list-disc list-inside">
+                    <li>No refund or exchange policy applies.</li>
+                    <li>If your order arrives damaged or incorrect, contact us within 24 hours.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Terms & Conditions Popup --}}
+<div id="terms-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closePopup('terms-popup')"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8" style="transform: scale(0.95) translateY(10px); transition: transform 0.3s ease;">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-stone-900">Terms & Conditions</h3>
+            <button onclick="closePopup('terms-popup')" class="text-stone-400 hover:text-stone-600 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <ul class="space-y-3 text-sm text-stone-600 list-disc list-inside">
+            <li>All our products are made to order to ensure the highest quality.</li>
+            <li>To place an order, please contact us at +92 323 1256645.</li>
+            <li>A 50% advance payment is required to confirm your order and begin processing.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function openPopup(id) {
+        var popup = document.getElementById(id);
+        if (popup) {
+            popup.style.display = 'flex';
+            setTimeout(function() {
+                popup.style.opacity = '1';
+                popup.querySelector('.relative').style.transform = 'scale(1) translateY(0)';
+            }, 10);
+        }
+    }
+
+    function closePopup(id) {
+        var popup = document.getElementById(id);
+        if (popup) {
+            popup.style.opacity = '0';
+            popup.querySelector('.relative').style.transform = 'scale(0.95) translateY(10px)';
+            setTimeout(function() { popup.style.display = 'none'; }, 300);
+        }
+    }
+
+    function showSizeGuide() { openPopup('size-guide-popup'); }
+    function showDeliveryInfo() { openPopup('delivery-popup'); }
+    function showTermsInfo() { openPopup('terms-popup'); }
 </script>
 @endsection

@@ -129,7 +129,7 @@
 {{-- New Arrival --}}
 @if($newArrival)
 <div class="bg-[#f0ece6]">
-    <div class="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+    <div class="max-w-[1400px] mx-auto px-6 py-8 md:py-12">
         <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
             {{-- Image --}}
             <div class="w-full md:w-1/2 flex justify-center">
@@ -142,7 +142,7 @@
             <div class="w-full md:w-1/2">
                 <p class="text-sm font-bold tracking-[0.15em] text-stone-800 uppercase mb-4">New Products</p>
                 <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-stone-900 mb-6 uppercase leading-tight break-words">{{ $newArrival->title }}</h2>
-                <p class="text-stone-600 leading-relaxed mb-8 max-w-lg">{{ $newArrival->description }}</p>
+
                 <a href="{{ route('products.show', $newArrival) }}" class="inline-block bg-stone-900 text-white px-10 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-[0.2em] font-bold">Buy Now</a>
             </div>
         </div>
@@ -168,12 +168,32 @@
         <p class="text-stone-400 text-sm tracking-[0.3em] uppercase mb-3">Stay Updated</p>
         <h2 class="text-2xl md:text-3xl font-bold text-stone-900 mb-4">Subscribe to Our Newsletter</h2>
         <p class="text-stone-500 mb-8">Be the first to know about new collections and exclusive offers.</p>
-        <form class="flex gap-0">
-            <input type="email" placeholder="Enter your email" class="flex-1 px-5 py-3 border border-stone-300 border-r-0 focus:outline-none focus:border-stone-500 text-sm bg-white">
+        <form action="{{ route('newsletter.store') }}" method="POST" class="flex gap-0">
+            @csrf
+            <input type="email" name="email" required placeholder="Enter your email" class="flex-1 px-5 py-3 border border-stone-300 border-r-0 focus:outline-none focus:border-stone-500 text-sm bg-white">
             <button type="submit" class="bg-stone-900 text-white px-8 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-wider font-medium">Subscribe</button>
         </form>
     </div>
 </div>
+
+{{-- Newsletter Success Popup --}}
+@if(session('newsletter_success'))
+<div id="newsletter-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeNewsletterPopup()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center" style="transform: scale(0.95) translateY(10px); transition: transform 0.3s ease;">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 mb-2">You're Subscribed!</h3>
+        <p class="text-stone-500 text-sm mb-6">{{ session('newsletter_success') }}</p>
+        <button onclick="closeNewsletterPopup()" class="bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+            Done
+        </button>
+    </div>
+</div>
+@endif
 @endsection
 
 @section('scripts')
@@ -234,5 +254,27 @@
 
         track.style.transform = 'translateX(-' + categoryScrollAmount + 'px)';
     }
+
+    // Newsletter popup
+    var newsletterPopup = document.getElementById('newsletter-popup');
+    if (newsletterPopup) {
+        setTimeout(function() {
+            newsletterPopup.style.display = 'flex';
+            setTimeout(function() {
+                newsletterPopup.style.opacity = '1';
+                newsletterPopup.querySelector('.relative').style.transform = 'scale(1) translateY(0)';
+            }, 10);
+        }, 500);
+    }
+
+    function closeNewsletterPopup() {
+        if (newsletterPopup) {
+            newsletterPopup.style.opacity = '0';
+            newsletterPopup.querySelector('.relative').style.transform = 'scale(0.95) translateY(10px)';
+            setTimeout(function() { newsletterPopup.style.display = 'none'; }, 300);
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
 </script>
 @endsection

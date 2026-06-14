@@ -11,10 +11,6 @@
     <a href="{{ route('admin.products.create') }}" class="bg-stone-900 text-white px-6 py-2 rounded hover:bg-stone-800 transition font-medium">+ Add Product</a>
 </div>
 
-@if(session('success'))
-    <div class="bg-green-50 text-green-700 p-4 rounded mb-6">{{ session('success') }}</div>
-@endif
-
 <div class="bg-white rounded-lg shadow-sm border border-stone-200 overflow-hidden">
     <table class="w-full text-left">
         <thead class="bg-stone-50 border-b border-stone-200">
@@ -37,9 +33,9 @@
                 <td class="px-6 py-4 text-stone-500">{{ $product->category ?? 'N/A' }}</td>
                 <td class="px-6 py-4">
                     <a href="{{ route('admin.products.edit', $product) }}" class="text-stone-600 hover:text-stone-900 mr-3">Edit</a>
-                    <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="inline" onsubmit="return confirm('Delete this product?')">
+                    <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="inline" data-no-loading>
                         @csrf @method('DELETE')
-                        <button class="text-red-500 hover:text-red-700">Delete</button>
+                        <button type="button" onclick="event.preventDefault(); showConfirmModal('Delete this product permanently? This cannot be undone.', function() { this.closest('form').submit(); }.bind(this))" class="text-red-500 hover:text-red-700">Delete</button>
                     </form>
                 </td>
             </tr>
