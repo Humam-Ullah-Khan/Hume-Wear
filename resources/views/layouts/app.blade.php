@@ -117,8 +117,7 @@
                 <a href="{{ url('/') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Home</a>
                 <a href="{{ url('/products') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Shop</a>
                 <a href="#" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Collections</a>
-                <a href="#" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">About</a>
-                <a href="#" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Contact</a>
+                <a href="{{ url('/contact') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Contact</a>
             </nav>
             <div class="mt-16 pt-8 border-t border-stone-100">
                 <h4 class="text-xs font-bold tracking-wider text-stone-400 mb-4">FOLLOW US</h4>
@@ -193,7 +192,7 @@
                         <li><a href="#" class="hover:text-white transition">Home</a></li>
                         <li><a href="{{ url('/products') }}" class="hover:text-white transition">Shop</a></li>
                         <li><a href="#" class="hover:text-white transition">Collections</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="{{ url('/contact') }}" class="hover:text-white transition">Contact</a></li>
                     </ul>
                 </div>
                 <div>
