@@ -54,11 +54,11 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-stone-600 mb-1.5">Discount</label>
-                            <div class="flex items-center gap-0">
-                                <input type="number" step="0.01" name="discount" value="{{ old('discount', $product->discount) }}" placeholder="PKR 0" class="w-full px-4 py-2.5 border border-stone-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                                <div class="flex border border-l-0 border-stone-200 rounded-r-lg overflow-hidden">
-                                    <button type="button" onclick="setDiscountType('percent')" id="btn-percent" class="discount-type-btn px-3 py-2.5 text-sm {{ old('discount_type', $product->discount_type) === 'percent' ? 'bg-blue-500 text-white' : 'bg-stone-100 text-stone-600' }} border-r border-stone-200">%</button>
-                                    <button type="button" onclick="setDiscountType('fixed')" id="btn-fixed" class="discount-type-btn px-3 py-2.5 text-sm {{ old('discount_type', $product->discount_type) !== 'percent' ? 'bg-blue-500 text-white' : 'bg-stone-100 text-stone-600' }}">PKR</button>
+                            <div class="flex items-center">
+                                <input type="number" step="0.01" name="discount" value="{{ old('discount', $product->discount) }}" placeholder="0" class="flex-1 min-w-0 px-4 py-2.5 border border-stone-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                <div class="flex flex-shrink-0 border border-l-0 border-stone-200 rounded-r-lg overflow-hidden">
+                                    <button type="button" onclick="setDiscountType('percent')" id="btn-percent" class="discount-type-btn px-3 py-2.5 text-sm font-medium whitespace-nowrap {{ old('discount_type', $product->discount_type) === 'percent' ? 'bg-blue-500 text-white' : 'bg-stone-100 text-stone-600' }} border-r border-stone-200">%</button>
+                                    <button type="button" onclick="setDiscountType('fixed')" id="btn-fixed" class="discount-type-btn px-3 py-2.5 text-sm font-medium whitespace-nowrap {{ old('discount_type', $product->discount_type) !== 'percent' ? 'bg-blue-500 text-white' : 'bg-stone-100 text-stone-600' }}">PKR</button>
                                 </div>
                                 <input type="hidden" name="discount_type" id="discount_type" value="{{ old('discount_type', $product->discount_type ?? 'fixed') }}">
                             </div>

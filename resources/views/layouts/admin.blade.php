@@ -34,9 +34,33 @@
     </style>
 </head>
 <body>
-    <div class="min-h-screen flex">
-        <aside class="w-64 bg-stone-900 text-stone-300 p-6">
-            <h2 class="text-2xl font-bold text-white mb-8 font-logo">HUME WEAR</h2>
+    <div class="min-h-screen flex flex-col lg:flex-row">
+        {{-- Mobile Header --}}
+        <div class="lg:hidden fixed top-0 left-0 right-0 z-30 bg-stone-900 text-white px-4 py-3 flex items-center justify-between">
+            <span class="text-xl font-bold font-logo">HUME WEAR</span>
+            <button onclick="toggleSidebar()" class="p-2 rounded hover:bg-stone-800 transition">
+                <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+
+        {{-- Sidebar Overlay --}}
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-[25] hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        {{-- Sidebar --}}
+        <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-[26] w-64 bg-stone-900 text-stone-300 p-6 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto">
+            <div class="flex items-center justify-between mb-8 lg:block">
+                <h2 class="text-2xl font-bold text-white font-logo">HUME WEAR</h2>
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 text-stone-400 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
             <p class="text-xs uppercase tracking-widest text-stone-500 mb-4">Admin Panel</p>
             <nav class="space-y-2">
                 <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded hover:bg-stone-800 transition">Dashboard</a>
@@ -46,7 +70,9 @@
                 <form id="logout-form" method="POST" action="{{ route('admin.logout') }}" class="hidden">@csrf</form>
             </nav>
         </aside>
-        <main class="flex-1 p-8">
+
+        {{-- Main Content --}}
+        <main class="flex-1 pt-20 lg:pt-8 p-4 md:p-8 min-h-screen">
             @yield('content')
         </main>
     </div>
@@ -109,6 +135,27 @@
     </div>
 
     <script>
+        // Sidebar toggle for mobile
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebar-overlay');
+            var hamburger = document.getElementById('hamburger-icon');
+            var closeIcon = document.getElementById('close-icon');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+            if (hamburger && closeIcon) {
+                hamburger.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            }
+        }
+
+        // Close sidebar on nav click (mobile)
+        document.querySelectorAll('#sidebar nav a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 1024) toggleSidebar();
+            });
+        });
+
         // Toast auto-dismiss
         document.addEventListener('DOMContentLoaded', function() {
             var successToast = document.getElementById('success-toast');

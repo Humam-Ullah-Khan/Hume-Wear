@@ -3,7 +3,7 @@
 @section('title', 'Create a New Product - Admin')
 
 @section('content')
-<div class="max-w-7xl mx-auto">
+<div class="max-w-7xl mx-auto pb-24 lg:pb-0">
     <div class="flex items-center justify-between mb-8">
         <h1 class="text-2xl font-bold text-stone-800">Create a New Product</h1>
         <div class="flex items-center gap-3">
@@ -33,11 +33,12 @@
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-6">
                     <h2 class="text-lg font-semibold text-stone-800 mb-6">General Information</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                        <div>
-                            <label class="block text-sm font-medium text-stone-600 mb-1.5">Product Name</label>
-                            <input type="text" name="title" value="{{ old('title') }}" placeholder="Enter product name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                        </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-stone-600 mb-1.5">Product Name</label>
+                        <input type="text" name="title" value="{{ old('title') }}" placeholder="Enter product name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label class="block text-sm font-medium text-stone-600 mb-1.5">Unique Code</label>
                             <input type="text" name="unique_code" value="{{ old('unique_code') }}" placeholder="e.g. HW-001 (auto-generated if empty)" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
@@ -62,11 +63,11 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-stone-600 mb-1.5">Discount</label>
-                            <div class="flex items-center gap-0">
-                                <input type="number" step="0.01" name="discount" value="{{ old('discount') }}" placeholder="PKR 0" class="w-full px-4 py-2.5 border border-stone-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                                <div class="flex border border-l-0 border-stone-200 rounded-r-lg overflow-hidden">
-                                    <button type="button" onclick="setDiscountType('percent')" id="btn-percent" class="discount-type-btn px-3 py-2.5 text-sm bg-blue-500 text-white">%</button>
-                                    <button type="button" onclick="setDiscountType('fixed')" id="btn-fixed" class="discount-type-btn px-3 py-2.5 text-sm bg-stone-100 text-stone-600 border-l border-stone-200">PKR</button>
+                            <div class="flex items-center">
+                                <input type="number" step="0.01" name="discount" value="{{ old('discount') }}" placeholder="0" class="flex-1 min-w-0 px-4 py-2.5 border border-stone-200 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                <div class="flex flex-shrink-0 border border-l-0 border-stone-200 rounded-r-lg overflow-hidden">
+                                    <button type="button" onclick="setDiscountType('percent')" id="btn-percent" class="discount-type-btn px-3 py-2.5 text-sm font-medium whitespace-nowrap bg-blue-500 text-white">%</button>
+                                    <button type="button" onclick="setDiscountType('fixed')" id="btn-fixed" class="discount-type-btn px-3 py-2.5 text-sm font-medium whitespace-nowrap bg-stone-100 text-stone-600 border-l border-stone-200">PKR</button>
                                 </div>
                                 <input type="hidden" name="discount_type" id="discount_type" value="{{ old('discount_type', 'fixed') }}">
                             </div>
@@ -90,22 +91,10 @@
                         <input type="hidden" name="size" id="size-input" value="{{ old('size') }}">
                     </div>
                 </div>
-
-                <div class="flex items-center gap-4 mt-8">
-                    <a href="{{ route('admin.products.index') }}" class="px-6 py-2.5 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
-                    <div class="flex-1"></div>
-                    <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Save</button>
-                </div>
             </div>
 
             {{-- Right Sidebar --}}
             <div class="w-full lg:w-80 space-y-6">
-                {{-- Tag --}}
-                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-                    <label class="block text-sm font-medium text-stone-800 mb-3">Tag</label>
-                    <input type="text" name="tags" value="{{ old('tags') }}" placeholder="Type and enter" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                </div>
-
                 {{-- Product Images --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
                     <label class="block text-sm font-medium text-stone-800 mb-3">Product Images</label>
@@ -121,16 +110,6 @@
                     <input type="hidden" name="primary_image" id="primary-image-input" value="0">
                 </div>
 
-                {{-- Status --}}
-                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-                    <label class="block text-sm font-medium text-stone-800 mb-3">Status</label>
-                    <div class="flex gap-2">
-                        <button type="button" onclick="setStatus('draft')" id="status-draft" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility', 'draft') == 'draft' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Draft</button>
-                        <button type="button" onclick="setStatus('published')" id="status-published" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility') == 'published' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Publish</button>
-                    </div>
-                    <input type="hidden" name="visibility" id="visibility-input" value="{{ old('visibility', 'draft') }}">
-                </div>
-
                 {{-- Category --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
                     <label class="block text-sm font-medium text-stone-800 mb-3">Category</label>
@@ -144,6 +123,19 @@
                     <textarea name="notes" rows="4" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none">{{ old('notes') }}</textarea>
                 </div>
             </div>
+        </div>
+
+        {{-- Mobile Bottom Bar --}}
+        <div class="fixed bottom-0 left-0 right-0 lg:hidden z-20 bg-white border-t border-stone-200 p-4 flex gap-3">
+            <a href="{{ route('admin.products.index') }}" class="flex-1 text-center px-4 py-3 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
+            <button type="submit" class="flex-1 text-center px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-semibold">Save</button>
+        </div>
+
+        {{-- Desktop Buttons --}}
+        <div class="hidden lg:flex items-center gap-4 mt-8">
+            <a href="{{ route('admin.products.index') }}" class="px-6 py-2.5 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
+            <div class="flex-1"></div>
+            <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Save</button>
         </div>
     </form>
 </div>
@@ -166,17 +158,6 @@
             document.getElementById('btn-fixed').classList.add('bg-blue-500', 'text-white');
             document.getElementById('btn-fixed').classList.remove('bg-stone-100', 'text-stone-600');
         }
-    }
-
-    function setStatus(status) {
-        document.getElementById('visibility-input').value = status;
-        document.querySelectorAll('[id^="status-"]').forEach(btn => {
-            btn.classList.remove('bg-stone-900', 'text-white', 'border-stone-900');
-            btn.classList.add('bg-white', 'text-stone-600', 'border-stone-200');
-        });
-        var active = document.getElementById('status-' + status);
-        active.classList.remove('bg-white', 'text-stone-600', 'border-stone-200');
-        active.classList.add('bg-stone-900', 'text-white', 'border-stone-900');
     }
 
     function toggleSize(el, size) {
