@@ -46,7 +46,7 @@ class AdminProductController extends Controller
             }
         }
 
-        $validated['images'] = !empty($imagePaths) ? json_encode($imagePaths) : null;
+        $validated['images'] = !empty($imagePaths) ? $imagePaths : null;
 
         if (!empty($imagePaths)) {
             $primaryIdx = (int) $request->input('primary_image', 0);
@@ -105,7 +105,7 @@ class AdminProductController extends Controller
         }
 
         $allImages = array_merge($existingImages, $newImages);
-        $validated['images'] = !empty($allImages) ? json_encode($allImages) : null;
+        $validated['images'] = !empty($allImages) ? $allImages : null;
 
         $primaryInput = $request->input('primary_image');
         if ($primaryInput !== null) {
