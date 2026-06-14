@@ -266,6 +266,24 @@
         </div>
     </footer>
 
+    {{-- Welcome Popup --}}
+    <div id="welcome-popup" class="fixed inset-0 z-[200] flex items-end justify-center" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px]" onclick="closeWelcomePopup()"></div>
+        <div class="relative bg-white w-full max-w-lg rounded-t-2xl shadow-2xl p-6 sm:p-8" style="transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);">
+            <div class="flex items-start gap-5">
+                <img src="{{ asset('images/logo-transparent.png') }}" alt="Hume Wear" class="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0 mt-1">
+                <div class="flex-1">
+                    <p class="text-stone-700 text-sm sm:text-base leading-relaxed font-medium">Welcome to HUME WEAR — discover premium fashion and accessories crafted for the modern woman.</p>
+                    <div class="mt-5 text-right">
+                        <button onclick="closeWelcomePopup()" class="btn-hover bg-stone-900 hover:bg-stone-800 text-white px-8 py-3 rounded-xl transition text-sm font-semibold tracking-wide">
+                            Start Shopping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openMenu() {
             document.getElementById('menu-overlay').classList.add('open');
@@ -360,6 +378,28 @@
                 navTexts.forEach(el => { el.classList.add('text-white'); el.classList.remove('text-stone-900'); });
                 navIcons.forEach(el => { el.classList.add('text-white'); el.classList.remove('text-stone-900'); });
             }
+        }
+
+        // Welcome popup
+        (function() {
+            var popup = document.getElementById('welcome-popup');
+            if (!popup || localStorage.getItem('hw_welcome_seen')) return;
+            setTimeout(function() {
+                popup.style.display = 'flex';
+                requestAnimationFrame(function() {
+                    popup.style.opacity = '1';
+                    popup.querySelector('.relative').style.transform = 'translateY(0)';
+                });
+                localStorage.setItem('hw_welcome_seen', 'true');
+            }, 1500);
+        })();
+
+        function closeWelcomePopup() {
+            var popup = document.getElementById('welcome-popup');
+            if (!popup) return;
+            popup.style.opacity = '0';
+            popup.querySelector('.relative').style.transform = 'translateY(100%)';
+            setTimeout(function() { popup.style.display = 'none'; }, 500);
         }
 
         window.addEventListener('scroll', updateNav);
