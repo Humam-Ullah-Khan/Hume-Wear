@@ -61,9 +61,22 @@
                         </div>
                     </div>
 
+                    {{-- Select Size --}}
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-stone-600 mb-2">Size</label>
-                        <input type="text" name="size" value="{{ old('size', $product->size) }}" placeholder="e.g. S, M, L, XL" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                        <div class="flex flex-wrap gap-2" id="sizes-container">
+                            @php
+                                $sizes = ['XS', 'S', 'M', 'L', 'XL'];
+                                $productSizes = $product->size ? explode(',', $product->size) : [];
+                                $oldSizes = old('size') ? explode(',', old('size')) : $productSizes;
+                            @endphp
+                            @foreach($sizes as $size)
+                                <button type="button" onclick="toggleSize(this, '{{ $size }}')" class="size-btn px-4 py-2 border border-stone-200 rounded-lg text-sm text-stone-600 hover:border-stone-400 transition {{ in_array($size, $oldSizes) ? 'bg-stone-900 text-white border-stone-900' : '' }}">
+                                    {{ $size }}
+                                </button>
+                            @endforeach
+                        </div>
+                        <input type="hidden" name="size" id="size-input" value="{{ old('size', $product->size) }}">
                     </div>
                 </div>
 
@@ -103,6 +116,16 @@
                     </div>
                     <input type="hidden" name="primary_image" id="primary-image-input" value="{{ $currentPrimary }}">
                     <input type="hidden" name="remove_images" id="remove-images-input" value="">
+                </div>
+
+                {{-- Status --}}
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <label class="block text-sm font-medium text-stone-800 mb-3">Status</label>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="setStatus('draft')" id="status-draft" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility', $product->visibility) == 'draft' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Draft</button>
+                        <button type="button" onclick="setStatus('published')" id="status-published" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility', $product->visibility) == 'published' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Publish</button>
+                    </div>
+                    <input type="hidden" name="visibility" id="visibility-input" value="{{ old('visibility', $product->visibility) }}">
                 </div>
 
                 {{-- Category --}}
@@ -197,6 +220,32 @@
     function removeNewImage(btn) {
         const div = btn.closest('div[data-new]');
         if (div) div.remove();
+    }
+
+    function setStatus(status) {
+        document.getElementById('visibility-input').value = status;
+        document.querySelectorAll('[id^="status-"]').forEach(btn => {
+            btn.classList.remove('bg-stone-900', 'text-white', 'border-stone-900');
+            btn.classList.add('bg-white', 'text-stone-600', 'border-stone-200');
+        });
+        var active = document.getElementById('status-' + status);
+        active.classList.remove('bg-white', 'text-stone-600', 'border-stone-200');
+        active.classList.add('bg-stone-900', 'text-white', 'border-stone-900');
+    }
+
+    function toggleSize(el, size) {
+        el.classList.toggle('bg-stone-900');
+        el.classList.toggle('text-white');
+        el.classList.toggle('border-stone-900');
+        updateSizeInput();
+    }
+
+    function updateSizeInput() {
+        const selected = [];
+        document.querySelectorAll('.size-btn.bg-stone-900').forEach(btn => {
+            selected.push(btn.textContent.trim());
+        });
+        document.getElementById('size-input').value = selected.join(',');
     }
 </script>
 @endsection

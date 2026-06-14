@@ -85,13 +85,38 @@
     </div>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
         @foreach($featuredProducts as $product)
+        @php
+            $discountPrice = null;
+            $discountPercent = null;
+            if($product->discount && $product->discount > 0) {
+                if($product->discount_type === 'percent') {
+                    $discountPrice = $product->price - ($product->price * $product->discount / 100);
+                    $discountPercent = $product->discount;
+                } else {
+                    $discountPrice = $product->price - $product->discount;
+                    $discountPercent = round(($product->discount / $product->price) * 100);
+                }
+            }
+        @endphp
         <a href="{{ route('products.show', $product) }}" class="group">
-            <div class="aspect-[3/4] bg-[#f5f0eb] overflow-hidden rounded-xl">
+            <div class="aspect-[3/4] bg-[#f5f0eb] overflow-hidden rounded-xl relative">
                 <img src="{{ $product->primary_image ? asset('storage/' . $product->primary_image) : ($product->image ? asset('storage/' . $product->image) : 'https://placehold.co/400x500/f5f0eb/1c1917?text=' . urlencode($product->title)) }}" alt="{{ $product->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                @if($discountPercent)
+                <div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 uppercase tracking-wider rounded-sm z-10">
+                    -{{ $discountPercent }}%
+                </div>
+                @endif
             </div>
             <div class="mt-3">
                 <h3 class="text-sm text-stone-800 leading-snug">{{ $product->title }}</h3>
+                @if($discountPrice !== null)
+                <p class="text-stone-500 text-sm mt-1">
+                    <span class="text-red-600 font-semibold">PKR {{ number_format($discountPrice, 0) }}</span>
+                    <span class="line-through ml-1">PKR {{ number_format($product->price, 0) }}</span>
+                </p>
+                @else
                 <p class="text-stone-500 text-sm mt-1">PKR {{ number_format($product->price, 0) }}</p>
+                @endif
             </div>
         </a>
         @endforeach

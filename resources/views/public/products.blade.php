@@ -24,6 +24,17 @@
                     }
                 }
             }
+            $discountPrice = null;
+            $discountPercent = null;
+            if($product->discount && $product->discount > 0) {
+                if($product->discount_type === 'percent') {
+                    $discountPrice = $product->price - ($product->price * $product->discount / 100);
+                    $discountPercent = $product->discount;
+                } else {
+                    $discountPrice = $product->price - $product->discount;
+                    $discountPercent = round(($product->discount / $product->price) * 100);
+                }
+            }
         @endphp
         <a href="{{ route('products.show', $product) }}" class="group">
             <div class="aspect-[3/4] bg-[#f5f0eb] overflow-hidden rounded-xl relative">
@@ -31,10 +42,22 @@
                 @if($hoverImage)
                 <img src="{{ $hoverImage }}" alt="{{ $product->title }}" class="w-full h-full object-cover absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
                 @endif
+                @if($discountPercent)
+                <div class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 uppercase tracking-wider rounded-sm z-10">
+                    -{{ $discountPercent }}%
+                </div>
+                @endif
             </div>
             <div class="mt-3">
                 <h3 class="text-sm text-stone-800 leading-snug">{{ $product->title }}</h3>
+                @if($discountPrice !== null)
+                <p class="text-stone-500 text-sm mt-1">
+                    <span class="text-red-600 font-semibold">PKR {{ number_format($discountPrice, 0) }}</span>
+                    <span class="line-through ml-1">PKR {{ number_format($product->price, 0) }}</span>
+                </p>
+                @else
                 <p class="text-stone-500 text-sm mt-1">PKR {{ number_format($product->price, 0) }}</p>
+                @endif
             </div>
         </a>
         @empty

@@ -74,7 +74,7 @@
                         <label class="block text-sm font-medium text-stone-600 mb-2">Select Your Size</label>
                         <div class="flex flex-wrap gap-2" id="sizes-container">
                             @php
-                                $sizes = ['36 EU', '36.5 EU', '38 EU', '38.5 EU', '40 EU', '40.5 EU', '42 EU'];
+                                $sizes = ['XS', 'S', 'M', 'L', 'XL'];
                                 $oldSizes = old('size') ? explode(',', old('size')) : [];
                             @endphp
                             @foreach($sizes as $size)
@@ -90,7 +90,7 @@
                 <div class="flex items-center gap-4 mt-8">
                     <a href="{{ route('admin.products.index') }}" class="px-6 py-2.5 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
                     <div class="flex-1"></div>
-                    <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Publish</button>
+                    <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Save</button>
                 </div>
             </div>
 
@@ -117,26 +117,14 @@
                     <input type="hidden" name="primary_image" id="primary-image-input" value="0">
                 </div>
 
-                {{-- Visibility --}}
+                {{-- Status --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-                    <label class="block text-sm font-medium text-stone-800 mb-3">Visibility</label>
-                    <div class="flex items-center gap-6 mb-4">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="visibility" value="published" {{ old('visibility', 'published') == 'published' ? 'checked' : '' }} class="w-4 h-4 text-blue-500 focus:ring-blue-500">
-                            <span class="text-sm text-stone-600">Published</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="visibility" value="schedule" {{ old('visibility') == 'schedule' ? 'checked' : '' }} class="w-4 h-4 text-blue-500 focus:ring-blue-500">
-                            <span class="text-sm text-stone-600">Schedule</span>
-                        </label>
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="visibility" value="hidden" {{ old('visibility') == 'hidden' ? 'checked' : '' }} class="w-4 h-4 text-blue-500 focus:ring-blue-500">
-                            <span class="text-sm text-stone-600">Hidden</span>
-                        </label>
+                    <label class="block text-sm font-medium text-stone-800 mb-3">Status</label>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="setStatus('draft')" id="status-draft" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility', 'draft') == 'draft' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Draft</button>
+                        <button type="button" onclick="setStatus('published')" id="status-published" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility') == 'published' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Publish</button>
                     </div>
-                    <div class="relative">
-                        <input type="date" name="publish_date" value="{{ old('publish_date') }}" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                    </div>
+                    <input type="hidden" name="visibility" id="visibility-input" value="{{ old('visibility', 'draft') }}">
                 </div>
 
                 {{-- Category --}}
@@ -167,6 +155,17 @@
             document.getElementById('btn-fixed').classList.add('bg-blue-500', 'text-white');
             document.getElementById('btn-fixed').classList.remove('bg-stone-100', 'text-stone-600');
         }
+    }
+
+    function setStatus(status) {
+        document.getElementById('visibility-input').value = status;
+        document.querySelectorAll('[id^="status-"]').forEach(btn => {
+            btn.classList.remove('bg-stone-900', 'text-white', 'border-stone-900');
+            btn.classList.add('bg-white', 'text-stone-600', 'border-stone-200');
+        });
+        var active = document.getElementById('status-' + status);
+        active.classList.remove('bg-white', 'text-stone-600', 'border-stone-200');
+        active.classList.add('bg-stone-900', 'text-white', 'border-stone-900');
     }
 
     function toggleSize(el, size) {

@@ -34,8 +34,7 @@ class AdminProductController extends Controller
             'category' => 'nullable|max:100',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
-            'visibility' => 'nullable|in:published,schedule,hidden',
-            'publish_date' => 'nullable|date',
+            'visibility' => 'nullable|in:draft,published',
             'primary_image' => 'nullable|numeric',
         ]);
 
@@ -80,8 +79,7 @@ class AdminProductController extends Controller
             'category' => 'nullable|max:100',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
-            'visibility' => 'nullable|in:published,schedule,hidden',
-            'publish_date' => 'nullable|date',
+            'visibility' => 'nullable|in:draft,published',
             'primary_image' => 'nullable',
             'remove_images' => 'nullable',
         ]);

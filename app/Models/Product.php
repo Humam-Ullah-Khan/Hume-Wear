@@ -21,7 +21,6 @@ class Product extends Model
         'primary_image',
         'category',
         'visibility',
-        'publish_date',
     ];
 
     protected $casts = [
