@@ -76,10 +76,44 @@
                     <p class="text-stone-500 mb-8">Fill out the form below and we'll get back to you shortly.</p>
 
                     @if(session('success'))
-                        <div class="bg-green-50 border border-green-200 text-green-700 px-5 py-3 rounded-xl mb-6 text-sm">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+<div id="success-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closePopup()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center transform transition-all">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 mb-2">Message Sent!</h3>
+        <p class="text-stone-500 text-sm mb-6">{{ session('success') }}</p>
+        <button onclick="closePopup()" class="bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+            Done
+        </button>
+    </div>
+</div>
+@endif
+
+@if($errors->any())
+<div id="error-popup" class="fixed inset-0 z-[100] flex items-center justify-center p-4" style="display:none; opacity:0; transition: opacity 0.3s ease;">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeErrorPopup()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center transform transition-all">
+        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
+            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </div>
+        <h3 class="text-xl font-bold text-stone-900 mb-2">Something went wrong</h3>
+        <ul class="text-stone-500 text-sm mb-6 text-left list-disc list-inside space-y-1">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button onclick="closeErrorPopup()" class="bg-stone-900 text-white px-8 py-3 rounded-xl hover:bg-stone-800 transition text-sm font-semibold tracking-wide">
+            Try Again
+        </button>
+    </div>
+</div>
+@endif
 
                     <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
@@ -148,6 +182,36 @@
             el.classList.remove('text-white');
             el.classList.add('text-stone-900');
         });
+
+        // Show popups on load
+        var successPopup = document.getElementById('success-popup');
+        var errorPopup = document.getElementById('error-popup');
+        if (successPopup) {
+            successPopup.style.display = 'flex';
+            setTimeout(function() { successPopup.style.opacity = '1'; }, 10);
+        }
+        if (errorPopup) {
+            errorPopup.style.display = 'flex';
+            setTimeout(function() { errorPopup.style.opacity = '1'; }, 10);
+        }
     })();
+
+    function closePopup() {
+        var popup = document.getElementById('success-popup');
+        if (popup) {
+            popup.style.opacity = '0';
+            setTimeout(function() { popup.style.display = 'none'; }, 300);
+        }
+        // Remove the success message from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    function closeErrorPopup() {
+        var popup = document.getElementById('error-popup');
+        if (popup) {
+            popup.style.opacity = '0';
+            setTimeout(function() { popup.style.display = 'none'; }, 300);
+        }
+    }
 </script>
 @endsection
