@@ -74,21 +74,15 @@
                         </div>
                     </div>
 
-                    {{-- Select Your Size --}}
+                    {{-- Colors --}}
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-stone-600 mb-2">Select Your Size</label>
-                        <div class="flex flex-wrap gap-2" id="sizes-container">
-                            @php
-                                $sizes = ['XS', 'S', 'M', 'L', 'XL'];
-                                $oldSizes = old('size') ? explode(',', old('size')) : [];
-                            @endphp
-                            @foreach($sizes as $size)
-                                <button type="button" onclick="toggleSize(this, '{{ $size }}')" class="size-btn px-4 py-2 border border-stone-200 rounded-lg text-sm text-stone-600 hover:border-stone-400 transition {{ in_array($size, $oldSizes) ? 'bg-stone-900 text-white border-stone-900' : '' }}">
-                                    {{ $size }}
-                                </button>
-                            @endforeach
+                        <label class="block text-sm font-medium text-stone-600 mb-2">Colors</label>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="color-input" placeholder="Enter color name (e.g. Red)" class="flex-1 px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            <button type="button" onclick="addColor()" class="px-4 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition">Add</button>
                         </div>
-                        <input type="hidden" name="size" id="size-input" value="{{ old('size') }}">
+                        <div class="flex flex-wrap gap-2" id="colors-container"></div>
+                        <input type="hidden" name="colors" id="colors-input" value="{{ old('colors') }}">
                     </div>
                 </div>
             </div>
@@ -153,6 +147,11 @@
     let uploadedFiles = [];
     let uploadedPaths = [];
     let primaryImageIndex = 0;
+    let colors = [];
+
+    document.getElementById('color-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); addColor(); }
+    });
 
     function setDiscountType(type) {
         document.getElementById('discount_type').value = type;
@@ -169,19 +168,30 @@
         }
     }
 
-    function toggleSize(el, size) {
-        el.classList.toggle('bg-stone-900');
-        el.classList.toggle('text-white');
-        el.classList.toggle('border-stone-900');
-        updateSizeInput();
+    function addColor() {
+        var input = document.getElementById('color-input');
+        var val = input.value.trim();
+        if (!val || colors.indexOf(val) !== -1) { input.value = ''; return; }
+        colors.push(val);
+        input.value = '';
+        renderColors();
     }
 
-    function updateSizeInput() {
-        const selected = [];
-        document.querySelectorAll('.size-btn.bg-stone-900').forEach(btn => {
-            selected.push(btn.textContent.trim());
+    function removeColor(color) {
+        colors = colors.filter(function(c) { return c !== color; });
+        renderColors();
+    }
+
+    function renderColors() {
+        var container = document.getElementById('colors-container');
+        container.innerHTML = '';
+        colors.forEach(function(color) {
+            var tag = document.createElement('span');
+            tag.className = 'inline-flex items-center gap-1 px-3 py-1.5 bg-stone-900 text-white rounded-lg text-sm';
+            tag.innerHTML = color + ' <button type="button" onclick="removeColor(\'' + color.replace(/'/g, "\\'") + '\')" class="ml-1 hover:text-red-300">&times;</button>';
+            container.appendChild(tag);
         });
-        document.getElementById('size-input').value = selected.join(',');
+        document.getElementById('colors-input').value = colors.join(',');
     }
 
     function previewImages(input) {

@@ -3,10 +3,15 @@
 @section('title', 'Edit Product - Admin')
 
 @section('content')
-<div class="max-w-7xl mx-auto">
-    <div class="mb-8">
+<div class="max-w-7xl mx-auto pb-24 lg:pb-0">
+    <div class="flex items-center justify-between mb-8">
         <h1 class="text-2xl font-bold text-stone-800">Edit Product</h1>
-        <p class="text-stone-500 mt-1">Update product information</p>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.products.create') }}" class="bg-stone-900 text-white text-sm px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-stone-800 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                New Product
+            </a>
+        </div>
     </div>
 
     @if ($errors->any())
@@ -23,18 +28,20 @@
         @csrf @method('PUT')
 
         <div class="flex flex-col lg:flex-row gap-6">
+            {{-- Left Column: General Information --}}
             <div class="flex-1">
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-6">
                     <h2 class="text-lg font-semibold text-stone-800 mb-6">General Information</h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                        <div>
-                            <label class="block text-sm font-medium text-stone-600 mb-1.5">Product Name</label>
-                            <input type="text" name="title" required value="{{ old('title', $product->title) }}" placeholder="Enter product name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
-                        </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-stone-600 mb-1.5">Product Name</label>
+                        <input type="text" name="title" value="{{ old('title', $product->title) }}" placeholder="Enter product name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label class="block text-sm font-medium text-stone-600 mb-1.5">Unique Code</label>
-                            <input type="text" name="unique_code" value="{{ old('unique_code', $product->unique_code) }}" placeholder="e.g. HW-001" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            <input type="text" name="unique_code" value="{{ old('unique_code', $product->unique_code) }}" placeholder="e.g. HW-001 (auto-generated if empty)" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-stone-600 mb-1.5">Brand</label>
@@ -43,14 +50,16 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-stone-600 mb-1.5">Description</label>
-                        <textarea name="description" required rows="6" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none">{{ old('description', $product->description) }}</textarea>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-sm font-medium text-stone-600">Description</label>
+                        </div>
+                        <textarea name="description" rows="6" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none">{{ old('description', $product->description) }}</textarea>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <label class="block text-sm font-medium text-stone-600 mb-1.5">Price (PKR)</label>
-                            <input type="number" step="0.01" name="price" required value="{{ old('price', $product->price) }}" placeholder="PKR 0.00" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            <label class="block text-sm font-medium text-stone-600 mb-1.5">Sale Price</label>
+                            <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}" placeholder="PKR 0.00" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-stone-600 mb-1.5">Discount</label>
@@ -65,32 +74,20 @@
                         </div>
                     </div>
 
-                    {{-- Select Size --}}
+                    {{-- Colors --}}
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-stone-600 mb-2">Size</label>
-                        <div class="flex flex-wrap gap-2" id="sizes-container">
-                            @php
-                                $sizes = ['XS', 'S', 'M', 'L', 'XL'];
-                                $productSizes = $product->size ? explode(',', $product->size) : [];
-                                $oldSizes = old('size') ? explode(',', old('size')) : $productSizes;
-                            @endphp
-                            @foreach($sizes as $size)
-                                <button type="button" onclick="toggleSize(this, '{{ $size }}')" class="size-btn px-4 py-2 border border-stone-200 rounded-lg text-sm text-stone-600 hover:border-stone-400 transition {{ in_array($size, $oldSizes) ? 'bg-stone-900 text-white border-stone-900' : '' }}">
-                                    {{ $size }}
-                                </button>
-                            @endforeach
+                        <label class="block text-sm font-medium text-stone-600 mb-2">Colors</label>
+                        <div class="flex gap-2 mb-3">
+                            <input type="text" id="color-input" placeholder="Enter color name (e.g. Red)" class="flex-1 px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            <button type="button" onclick="addColor()" class="px-4 py-2.5 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition">Add</button>
                         </div>
-                        <input type="hidden" name="size" id="size-input" value="{{ old('size', $product->size) }}">
+                        <div class="flex flex-wrap gap-2" id="colors-container"></div>
+                        <input type="hidden" name="colors" id="colors-input" value="{{ old('colors', $product->colors) }}">
                     </div>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('admin.products.index') }}" class="px-6 py-2.5 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
-                    <div class="flex-1"></div>
-                    <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Update Product</button>
                 </div>
             </div>
 
+            {{-- Right Sidebar --}}
             <div class="w-full lg:w-80 space-y-6">
                 {{-- Product Images --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
@@ -120,16 +117,6 @@
                     </div>
                     <input type="hidden" name="primary_image" id="primary-image-input" value="{{ $currentPrimary }}">
                     <input type="hidden" name="remove_images" id="remove-images-input" value="">
-                </div>
-
-                {{-- Status --}}
-                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
-                    <label class="block text-sm font-medium text-stone-800 mb-3">Status</label>
-                    <div class="flex gap-2">
-                        <button type="button" onclick="setStatus('draft')" id="status-draft" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility', $product->visibility) == 'draft' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Draft</button>
-                        <button type="button" onclick="setStatus('published')" id="status-published" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition border {{ old('visibility', $product->visibility) == 'published' ? 'bg-stone-900 text-white border-stone-900' : 'bg-white text-stone-600 border-stone-200 hover:border-stone-400' }}">Publish</button>
-                    </div>
-                    <input type="hidden" name="visibility" id="visibility-input" value="{{ old('visibility', $product->visibility) }}">
                 </div>
 
                 {{-- Category --}}
@@ -166,12 +153,41 @@
                 </div>
             </div>
         </div>
+
+        {{-- Mobile Bottom Bar --}}
+        <div class="fixed bottom-0 left-0 right-0 lg:hidden z-20 bg-white border-t border-stone-200 p-4 flex gap-3">
+            <a href="{{ route('admin.products.index') }}" class="flex-1 text-center px-4 py-3 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
+            <button type="submit" class="flex-1 text-center px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-semibold">Update</button>
+        </div>
+
+        {{-- Desktop Buttons --}}
+        <div class="hidden lg:flex items-center gap-4 mt-8">
+            <a href="{{ route('admin.products.index') }}" class="px-6 py-2.5 border border-stone-200 rounded-lg text-stone-600 hover:bg-stone-50 transition text-sm font-medium">Cancel</a>
+            <div class="flex-1"></div>
+            <button type="submit" class="px-8 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-medium">Update</button>
+        </div>
     </form>
 </div>
 
 <script>
     let newUploadedCount = 0;
     let removedImages = [];
+    let colors = [];
+
+    @php
+        $existingColors = $product->colors ? explode(',', $product->colors) : [];
+        $oldColors = old('colors') ? explode(',', old('colors')) : $existingColors;
+    @endphp
+    @foreach($oldColors as $c)
+        @if($c !== '')
+            colors.push('{{ addslashes($c) }}');
+        @endif
+    @endforeach
+    renderColors();
+
+    document.getElementById('color-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); addColor(); }
+    });
 
     function setDiscountType(type) {
         document.getElementById('discount_type').value = type;
@@ -182,6 +198,32 @@
         const btn = document.getElementById('btn-' + type);
         btn.classList.add('bg-blue-500', 'text-white');
         btn.classList.remove('bg-stone-100', 'text-stone-600');
+    }
+
+    function addColor() {
+        var input = document.getElementById('color-input');
+        var val = input.value.trim();
+        if (!val || colors.indexOf(val) !== -1) { input.value = ''; return; }
+        colors.push(val);
+        input.value = '';
+        renderColors();
+    }
+
+    function removeColor(color) {
+        colors = colors.filter(function(c) { return c !== color; });
+        renderColors();
+    }
+
+    function renderColors() {
+        var container = document.getElementById('colors-container');
+        container.innerHTML = '';
+        colors.forEach(function(color) {
+            var tag = document.createElement('span');
+            tag.className = 'inline-flex items-center gap-1 px-3 py-1.5 bg-stone-900 text-white rounded-lg text-sm';
+            tag.innerHTML = color + ' <button type="button" onclick="removeColor(\'' + color.replace(/'/g, "\\'") + '\')" class="ml-1 hover:text-red-300">&times;</button>';
+            container.appendChild(tag);
+        });
+        document.getElementById('colors-input').value = colors.join(',');
     }
 
     function previewImages(input) {
@@ -251,32 +293,6 @@
     function removeNewImage(btn) {
         const div = btn.closest('div[data-new]');
         if (div) div.remove();
-    }
-
-    function setStatus(status) {
-        document.getElementById('visibility-input').value = status;
-        document.querySelectorAll('[id^="status-"]').forEach(btn => {
-            btn.classList.remove('bg-stone-900', 'text-white', 'border-stone-900');
-            btn.classList.add('bg-white', 'text-stone-600', 'border-stone-200');
-        });
-        var active = document.getElementById('status-' + status);
-        active.classList.remove('bg-white', 'text-stone-600', 'border-stone-200');
-        active.classList.add('bg-stone-900', 'text-white', 'border-stone-900');
-    }
-
-    function toggleSize(el, size) {
-        el.classList.toggle('bg-stone-900');
-        el.classList.toggle('text-white');
-        el.classList.toggle('border-stone-900');
-        updateSizeInput();
-    }
-
-    function updateSizeInput() {
-        const selected = [];
-        document.querySelectorAll('.size-btn.bg-stone-900').forEach(btn => {
-            selected.push(btn.textContent.trim());
-        });
-        document.getElementById('size-input').value = selected.join(',');
     }
 </script>
 @endsection
