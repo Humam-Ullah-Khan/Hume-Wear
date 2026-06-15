@@ -138,6 +138,26 @@
                     <input type="text" name="category" value="{{ old('category', $product->category) }}" placeholder="Enter category name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                 </div>
 
+                {{-- Product Video --}}
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <label class="block text-sm font-medium text-stone-800 mb-3">Product Video</label>
+                    <p class="text-xs text-stone-400 mb-2">Upload a video file (MP4, WebM, MOV — max 50MB)</p>
+                    <div>
+                        <input type="file" name="video" accept="video/mp4,video/webm,video/quicktime" class="w-full text-sm text-stone-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 transition">
+                    </div>
+                    @if($product->video)
+                    <div class="mt-3" id="current-video-wrapper">
+                        <video class="w-full rounded-lg max-h-40 object-cover" controls>
+                            <source src="{{ asset('storage/' . $product->video) }}" type="video/mp4">
+                        </video>
+                        <div class="flex items-center gap-2 mt-2">
+                            <input type="checkbox" name="remove_video" id="remove_video" value="1" onchange="document.getElementById('current-video-wrapper').classList.toggle('opacity-40')">
+                            <label for="remove_video" class="text-xs text-red-500 cursor-pointer">Remove current video</label>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+
                 {{-- Admin Notes --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
                     <label class="block text-sm font-medium text-stone-800 mb-3">Admin Notes</label>

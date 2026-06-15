@@ -116,6 +116,15 @@
                     <input type="text" name="category" value="{{ old('category') }}" placeholder="Enter category name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                 </div>
 
+                {{-- Product Video --}}
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <label class="block text-sm font-medium text-stone-800 mb-3">Product Video</label>
+                    <p class="text-xs text-stone-400 mb-2">Upload a video file (MP4, WebM, MOV — max 50MB)</p>
+                    <div>
+                        <input type="file" name="video" accept="video/mp4,video/webm,video/quicktime" class="w-full text-sm text-stone-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100 transition">
+                    </div>
+                </div>
+
                 {{-- Admin Notes --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
                     <label class="block text-sm font-medium text-stone-800 mb-3">Admin Notes</label>

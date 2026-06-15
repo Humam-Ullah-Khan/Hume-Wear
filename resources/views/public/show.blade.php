@@ -105,7 +105,7 @@
                     @endif
                     <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900 mt-1 leading-tight">{{ $product->title }}</h1>
                 </div>
-                <button onclick="toggleWishlist(this)" class="btn-hover flex-shrink-0 w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center hover:border-stone-400 transition mt-1">
+                <button onclick="toggleWishlist(this, {{ $product->id }})" data-product-id="{{ $product->id }}" class="btn-hover flex-shrink-0 w-10 h-10 rounded-full border border-stone-200 flex items-center justify-center hover:border-stone-400 transition mt-1">
                     <svg class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                     </svg>
@@ -211,10 +211,22 @@
                                 <li>To place an order, please contact us at +92 323 1256645.</li>
                                 <li>A 50% advance payment is required to confirm your order and begin processing.</li>
                             </ul>
-                        </div>
-                    </div>
+            </div>
+
+            {{-- Product Video --}}
+            @if($product->video)
+            <div class="mt-8">
+                <h3 class="text-sm font-bold text-stone-900 uppercase tracking-wider mb-4">Product Video</h3>
+                <div class="aspect-video bg-stone-100 rounded-xl overflow-hidden">
+                    <video class="w-full h-full object-cover" controls playsinline>
+                        <source src="{{ asset('storage/' . $product->video) }}" type="video/mp4">
+                    </video>
                 </div>
             </div>
+            @endif
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
@@ -267,20 +279,48 @@
         selectedSize = size;
     }
 
-    function toggleWishlist(el) {
+    function getWishlist() {
+        try { return JSON.parse(localStorage.getItem('hw_wishlist') || '[]'); }
+        catch(e) { return []; }
+    }
+    function saveWishlist(ids) {
+        localStorage.setItem('hw_wishlist', JSON.stringify(ids));
+    }
+    function markWishlistButton(el, filled) {
         const svg = el.querySelector('svg');
-        const isFilled = svg.getAttribute('fill') === 'currentColor';
-        if (isFilled) {
-            svg.setAttribute('fill', 'none');
-            el.classList.remove('bg-red-50', 'border-red-200');
-            el.classList.add('border-stone-200');
-        } else {
+        if (filled) {
             svg.setAttribute('fill', 'currentColor');
             svg.classList.add('text-red-500');
             el.classList.add('bg-red-50', 'border-red-200');
             el.classList.remove('border-stone-200');
+        } else {
+            svg.setAttribute('fill', 'none');
+            svg.classList.remove('text-red-500');
+            el.classList.remove('bg-red-50', 'border-red-200');
+            el.classList.add('border-stone-200');
         }
     }
+    function toggleWishlist(el, productId) {
+        var ids = getWishlist();
+        var index = ids.indexOf(productId);
+        if (index > -1) {
+            ids.splice(index, 1);
+            markWishlistButton(el, false);
+        } else {
+            ids.push(productId);
+            markWishlistButton(el, true);
+        }
+        saveWishlist(ids);
+        if (typeof updateWishlistCount === 'function') updateWishlistCount();
+    }
+    (function() {
+        var btn = document.querySelector('[data-product-id]');
+        if (btn) {
+            var pid = parseInt(btn.dataset.productId);
+            var ids = getWishlist();
+            if (ids.indexOf(pid) > -1) markWishlistButton(btn, true);
+        }
+    })();
 
     function toggleAccordion(id) {
         const content = document.getElementById(id + '-content');

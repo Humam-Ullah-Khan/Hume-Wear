@@ -20,6 +20,7 @@ class Product extends Model
         'image',
         'images',
         'primary_image',
+        'video',
         'category',
         'visibility',
         'notes',

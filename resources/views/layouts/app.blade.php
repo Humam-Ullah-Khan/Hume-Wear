@@ -133,11 +133,19 @@
                     <span class="text-2xl md:text-3xl font-bold tracking-[0.15em] font-logo nav-text">HUME WEAR</span>
                 </a>
 
-                <button class="nav-icon p-2" onclick="openSearch()">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                    </svg>
-                </button>
+                <div class="flex items-center gap-1">
+                    <button class="nav-icon p-2" onclick="openSearch()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                    <a href="{{ url('/wishlist') }}" class="nav-icon p-2 relative">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                        <span id="wishlist-badge" class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center hidden">0</span>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -157,6 +165,7 @@
             <nav class="space-y-6">
                 <a href="{{ url('/') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Home</a>
                 <a href="{{ url('/products') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Shop</a>
+                <a href="{{ url('/wishlist') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Wishlist</a>
                 <a href="#" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Collections</a>
                 <a href="{{ url('/contact') }}" class="block text-stone-900 text-lg tracking-wider uppercase hover:text-stone-600 transition">Contact</a>
             </nav>
@@ -180,6 +189,32 @@
                     @endif
                 </div>
             </div>
+        </div>
+    </div>
+
+    {{-- Search Panel --}}
+    <div class="panel-overlay fixed inset-0 bg-black/40 z-[70]" id="search-overlay" onclick="closeSearch()"></div>
+    <div class="search-panel fixed top-0 right-0 w-full max-w-sm h-full bg-white z-[71] shadow-2xl" id="search-panel">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <span class="text-lg font-bold tracking-[0.15em] font-logo text-stone-900">Search</span>
+                <button onclick="closeSearch()" class="btn-hover text-stone-400 hover:text-stone-900 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="relative">
+                <input id="search-input" type="text" placeholder="Search products..." oninput="handleSearch(this.value)" class="w-full px-4 py-3 pr-10 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-900 text-sm">
+                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <div id="search-suggestions" class="mt-4">
+                <p class="text-xs text-stone-400 uppercase tracking-wider font-medium">Start typing to search...</p>
+            </div>
+            <div id="search-loading" class="hidden mt-4 text-center py-8">
+                <div class="inline-block w-6 h-6 border-2 border-stone-200 border-t-stone-900 rounded-full animate-spin"></div>
+            </div>
+            <div id="search-results" class="mt-2 space-y-2 max-h-[60vh] overflow-y-auto"></div>
         </div>
     </div>
 
@@ -361,6 +396,23 @@
                 navIcons.forEach(el => { el.classList.add('text-white'); el.classList.remove('text-stone-900'); });
             }
         }
+
+        // Wishlist badge
+        function updateWishlistCount() {
+            var badge = document.getElementById('wishlist-badge');
+            if (!badge) return;
+            try {
+                var ids = JSON.parse(localStorage.getItem('hw_wishlist') || '[]');
+                if (ids.length > 0) {
+                    badge.textContent = ids.length;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            } catch(e) {}
+        }
+        updateWishlistCount();
+        window.addEventListener('storage', updateWishlistCount);
 
         // Welcome popup
         (function() {

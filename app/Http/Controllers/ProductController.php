@@ -13,7 +13,9 @@ class ProductController extends Controller
     {
         $featuredProducts = Product::latest()->take(5)->get();
 
-        $newArrival = Product::latest()->first();
+        $newArrival = Product::whereNotNull('video')->where('video', '!=', '')->latest()->first() ?? Product::latest()->first();
+
+        $videoProducts = Product::whereNotNull('video')->where('video', '!=', '')->latest()->take(8)->get();
 
         $categories = Product::whereNotNull('category')
             ->where('category', '!=', '')
@@ -46,7 +48,7 @@ class ProductController extends Controller
             ],
         ];
 
-        return view('public.index', compact('featuredProducts', 'categories', 'newArrival', 'heroSlides'));
+        return view('public.index', compact('featuredProducts', 'categories', 'newArrival', 'heroSlides', 'videoProducts'));
     }
 
     public function products()

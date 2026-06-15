@@ -38,6 +38,7 @@ class AdminProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
             'visibility' => 'nullable|in:draft,published',
             'primary_image' => 'nullable|numeric',
+            'video' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
             'notes' => 'nullable|string',
         ]);
 
@@ -59,6 +60,10 @@ class AdminProductController extends Controller
             $selectedIndex = isset($imagePaths[$primaryIdx]) ? $primaryIdx : 0;
             $validated['image'] = $imagePaths[$selectedIndex];
             $validated['primary_image'] = $imagePaths[$selectedIndex];
+        }
+
+        if ($request->hasFile('video')) {
+            $validated['video'] = $request->file('video')->store('products/videos', 'public');
         }
 
         Product::create($validated);
@@ -89,8 +94,10 @@ class AdminProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:10240',
             'visibility' => 'nullable|in:draft,published',
             'primary_image' => 'nullable',
+            'video' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
             'notes' => 'nullable|string',
             'remove_images' => 'nullable',
+            'remove_video' => 'nullable',
         ]);
 
         $existingImages = is_array($product->images) ? $product->images : [];
@@ -132,6 +139,20 @@ class AdminProductController extends Controller
 
         $product->update($validated);
 
+        if ($request->hasFile('video')) {
+            if ($product->video && Storage::disk('public')->exists($product->video)) {
+                Storage::disk('public')->delete($product->video);
+            }
+            $product->video = $request->file('video')->store('products/videos', 'public');
+        } elseif ($request->input('remove_video') === '1' && $product->video) {
+            if (Storage::disk('public')->exists($product->video)) {
+                Storage::disk('public')->delete($product->video);
+            }
+            $product->video = null;
+        }
+
+        $product->save();
+
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully!');
     }
 
@@ -143,6 +164,9 @@ class AdminProductController extends Controller
             if ($img && Storage::disk('public')->exists($img)) {
                 Storage::disk('public')->delete($img);
             }
+        }
+        if ($product->video && Storage::disk('public')->exists($product->video)) {
+            Storage::disk('public')->delete($product->video);
         }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Product deleted.');
