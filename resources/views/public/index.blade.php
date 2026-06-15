@@ -244,49 +244,50 @@
     </button>
 
     {{-- Modal Content --}}
-    <div class="absolute inset-0 flex items-center justify-center z-[205] p-4" onclick="event.stopPropagation()">
-        {{-- Video Card --}}
-        <div class="relative w-[300px] md:w-[340px] rounded-2xl overflow-hidden bg-black shadow-2xl flex-shrink-0">
-            {{-- Video --}}
-            <div class="relative w-full" style="padding-bottom: 177.8%;">
+    <div class="absolute inset-0 flex items-center justify-center z-[205] px-4 py-16" onclick="event.stopPropagation()">
+        {{-- Card Wrapper (relative, not overflow-hidden) --}}
+        <div class="relative flex-shrink-0">
+            {{-- Video Card --}}
+            <div class="relative w-[280px] sm:w-[300px] md:w-[340px] h-[70vh] max-h-[600px] rounded-2xl overflow-hidden bg-black shadow-2xl">
+                {{-- Video --}}
                 <video id="modal-video" class="absolute inset-0 w-full h-full object-cover" muted playsinline poster="" onclick="toggleModalPlay()">
                     <source src="" type="video/mp4">
                 </video>
-            </div>
 
-            {{-- Play/Pause Overlay --}}
-            <div id="modal-play-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none z-5">
-                <div class="w-16 h-16 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
-                    <svg id="modal-play-icon" class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-            </div>
-
-            {{-- Mute Button (top-right) --}}
-            <button id="modal-mute-btn" onclick="toggleModalMute()" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-stone-900 hover:bg-white transition z-10">
-                <svg id="modal-mute-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
-            </button>
-
-            {{-- Share Button (bottom-right of video) --}}
-            <button onclick="openSharePopup()" class="absolute bottom-20 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-stone-900 hover:bg-white transition shadow-lg z-10">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-            </button>
-
-            {{-- Product Info Bar (overlays bottom of video) --}}
-            <div class="absolute bottom-0 left-0 right-0 z-10">
-                <a id="modal-product-link" href="#" class="flex items-center gap-3 bg-white/95 backdrop-blur-sm p-3">
-                    <img id="modal-product-thumb" src="" alt="" class="w-12 h-12 rounded-lg object-cover bg-stone-200 flex-shrink-0">
-                    <div class="flex-1 min-w-0">
-                        <h3 id="modal-product-title" class="text-stone-900 text-sm font-bold truncate"></h3>
-                        <p class="mt-0.5 flex items-center gap-2 flex-wrap">
-                            <span id="modal-product-price" class="text-stone-900 font-bold"></span>
-                            <span id="modal-product-original" class="text-stone-400 line-through text-sm"></span>
-                            <span id="modal-product-discount" class="text-green-600 text-xs font-semibold"></span>
-                        </p>
+                {{-- Play/Pause Overlay --}}
+                <div id="modal-play-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none z-[5]">
+                    <div class="w-16 h-16 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center">
+                        <svg id="modal-play-icon" class="w-7 h-7 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
-                    <svg class="w-5 h-5 text-stone-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </a>
-            </div>
+                </div>
+
+                {{-- Mute Button (top-right) --}}
+                <button id="modal-mute-btn" onclick="toggleModalMute()" class="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-stone-900 hover:bg-white transition z-10">
+                    <svg id="modal-mute-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+                </button>
+
+                {{-- Share Button (inside card, above product bar) --}}
+                <button onclick="openSharePopup()" class="absolute right-3 bottom-[100px] md:bottom-[80px] w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-stone-900 hover:bg-white transition shadow-lg z-10">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                </button>
+
+                {{-- Product Info Bar (overlays bottom of video) --}}
+                <div class="absolute bottom-0 left-0 right-0 z-10">
+                    <a id="modal-product-link" href="#" class="flex items-center gap-3 bg-white/95 backdrop-blur-sm p-3">
+                        <img id="modal-product-thumb" src="" alt="" class="w-12 h-12 rounded-lg object-cover bg-stone-200 flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <h3 id="modal-product-title" class="text-stone-900 text-sm font-bold truncate"></h3>
+                            <p class="mt-0.5 flex items-center gap-2 flex-wrap">
+                                <span id="modal-product-price" class="text-stone-900 font-bold"></span>
+                                <span id="modal-product-original" class="text-stone-400 line-through text-sm"></span>
+                                <span id="modal-product-discount" class="text-green-600 text-xs font-semibold"></span>
+                            </p>
+                        </div>
+                        <svg class="w-5 h-5 text-stone-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
         </div>
+    </div>
     </div>
 </div>
 
