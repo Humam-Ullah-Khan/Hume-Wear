@@ -37,6 +37,33 @@
 @endphp
 
 <div class="max-w-[1400px] mx-auto px-4 sm:px-6 pt-32 pb-6">
+
+    {{-- Page Skeleton --}}
+    <div id="page-skeleton">
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-12 items-start">
+            <div class="w-full lg:w-1/2">
+                <div class="skeleton skeleton-img"></div>
+            </div>
+            <div class="w-full lg:w-1/2">
+                <div class="skeleton skeleton-text-sm mb-4" style="width:120px"></div>
+                <div class="skeleton skeleton-title mb-3"></div>
+                <div class="skeleton skeleton-text mb-3" style="width:40%"></div>
+                <div class="skeleton skeleton-text mb-6" style="width:30%"></div>
+                <div class="skeleton skeleton-text-sm mb-2" style="width:100%"></div>
+                <div class="skeleton skeleton-text-sm mb-2" style="width:90%"></div>
+                <div class="skeleton skeleton-text-sm mb-8" style="width:75%"></div>
+                <div class="skeleton mb-6" style="width:100%;height:3rem;border-radius:0.5rem"></div>
+                <div class="space-y-3">
+                    @for($i = 0; $i < 4; $i++)
+                    <div class="skeleton skeleton-text" style="width:80%"></div>
+                    @endfor
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Real Content --}}
+    <div id="page-content" style="display:none">
     {{-- Breadcrumb --}}
     <div class="flex items-center gap-2 text-xs text-stone-400 mb-6">
         <a href="{{ url('/') }}" class="hover:text-stone-900 transition">Home</a>
@@ -496,5 +523,25 @@
     function showSizeGuide() { openPopup('size-guide-popup'); }
     function showDeliveryInfo() { openPopup('delivery-popup'); }
     function showTermsInfo() { openPopup('terms-popup'); }
+</script>
+</div><!-- /page-content -->
+</div>
+
+<script>
+    window.addEventListener('load', function() {
+        var skeleton = document.getElementById('page-skeleton');
+        var content = document.getElementById('page-content');
+        if (skeleton && content) {
+            skeleton.style.transition = 'opacity 0.4s ease';
+            skeleton.style.opacity = '0';
+            setTimeout(function() {
+                skeleton.style.display = 'none';
+                content.style.display = 'block';
+                content.style.opacity = '0';
+                content.style.transition = 'opacity 0.5s ease';
+                requestAnimationFrame(function() { content.style.opacity = '1'; });
+            }, 300);
+        }
+    });
 </script>
 @endsection

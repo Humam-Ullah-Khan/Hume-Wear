@@ -107,33 +107,35 @@ class ProductController extends Controller
         $query = $request->input('q', '');
 
         if (empty($query)) {
-            return response()->json([]);
+            $products = Product::latest()->take(8)->get();
+        } else {
+            $products = Product::where(function ($q) use ($query) {
+                $q->whereRaw("CAST(id AS CHAR) = ?", [$query])
+                  ->orWhere('unique_code', 'like', "%{$query}%")
+                  ->orWhere('title', 'like', "%{$query}%")
+                  ->orWhere('brand', 'like', "%{$query}%")
+                  ->orWhere('category', 'like', "%{$query}%")
+                  ->orWhere('fabric', 'like', "%{$query}%")
+                  ->orWhere('tags', 'like', "%{$query}%")
+                  ->orWhere('description', 'like', "%{$query}%");
+            })
+            ->limit(10)
+            ->get();
         }
 
-        $products = Product::where(function ($q) use ($query) {
-            $q->whereRaw("CAST(id AS CHAR) = ?", [$query])
-              ->orWhere('unique_code', 'like', "%{$query}%")
-              ->orWhere('title', 'like', "%{$query}%")
-              ->orWhere('brand', 'like', "%{$query}%")
-              ->orWhere('category', 'like', "%{$query}%")
-              ->orWhere('tags', 'like', "%{$query}%")
-              ->orWhere('description', 'like', "%{$query}%");
-        })
-        ->limit(10)
-        ->get()
-        ->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'title' => $product->title,
-                'unique_code' => $product->unique_code,
-                'price' => $product->price,
-                'discount' => $product->discount,
-                'discount_type' => $product->discount_type,
-                'image' => $product->primary_image ? asset('storage/' . $product->primary_image) : ($product->image ? asset('storage/' . $product->image) : 'https://placehold.co/80x100/f5f0eb/1c1917?text=' . urlencode($product->title)),
-                'url' => route('products.show', $product),
-            ];
-        });
-
-        return response()->json($products);
+        return response()->json(
+            $products->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'title' => $product->title,
+                    'unique_code' => $product->unique_code,
+                    'price' => $product->price,
+                    'discount' => $product->discount,
+                    'discount_type' => $product->discount_type,
+                    'image' => $product->primary_image ? asset('storage/' . $product->primary_image) : ($product->image ? asset('storage/' . $product->image) : 'https://placehold.co/80x100/f5f0eb/1c1917?text=' . urlencode($product->title)),
+                    'url' => route('products.show', $product),
+                ];
+            })
+        );
     }
 }

@@ -11,6 +11,31 @@
 </style>
 <div class="max-w-[1400px] mx-auto px-6 pt-32 pb-12">
 
+    {{-- Page Skeleton --}}
+    <div id="page-skeleton">
+        <div class="mb-8">
+            <div class="skeleton skeleton-title" style="width:250px"></div>
+            <div class="skeleton skeleton-text-sm mt-3" style="width:150px"></div>
+        </div>
+        <div class="flex gap-2 mb-8">
+            @for($i = 0; $i < 3; $i++)
+            <div class="skeleton skeleton-btn"></div>
+            @endfor
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+            @for($i = 0; $i < 10; $i++)
+            <div>
+                <div class="skeleton skeleton-img mb-3"></div>
+                <div class="skeleton skeleton-text mb-2" style="width:85%"></div>
+                <div class="skeleton skeleton-text-sm" style="width:45%"></div>
+            </div>
+            @endfor
+        </div>
+    </div>
+
+    {{-- Real Content --}}
+    <div id="page-content" style="display:none">
+
     {{-- Header --}}
     <div class="mb-8">
         <h1 class="text-3xl md:text-4xl font-bold text-stone-900">Our Collection</h1>
@@ -128,6 +153,7 @@
         </div>
         @endforelse
     </div>
+</div><!-- /page-content -->
 </div>
 
 <script>
@@ -239,5 +265,24 @@
             el.classList.add('text-stone-900');
         });
     })();
+</script>
+</div>
+
+<script>
+    window.addEventListener('load', function() {
+        var skeleton = document.getElementById('page-skeleton');
+        var content = document.getElementById('page-content');
+        if (skeleton && content) {
+            skeleton.style.transition = 'opacity 0.4s ease';
+            skeleton.style.opacity = '0';
+            setTimeout(function() {
+                skeleton.style.display = 'none';
+                content.style.display = 'block';
+                content.style.opacity = '0';
+                content.style.transition = 'opacity 0.5s ease';
+                requestAnimationFrame(function() { content.style.opacity = '1'; });
+            }, 300);
+        }
+    });
 </script>
 @endsection

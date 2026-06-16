@@ -9,7 +9,18 @@
         <p class="text-stone-500 mt-2" id="wishlist-count"></p>
     </div>
 
-    <div id="wishlist-loading" class="text-center py-20">
+    {{-- Skeleton --}}
+    <div id="wishlist-skeleton" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        @for($i = 0; $i < 10; $i++)
+        <div>
+            <div class="skeleton skeleton-img mb-3"></div>
+            <div class="skeleton skeleton-text mb-2" style="width:80%"></div>
+            <div class="skeleton skeleton-text-sm" style="width:45%"></div>
+        </div>
+        @endfor
+    </div>
+
+    <div id="wishlist-loading" class="text-center py-20 hidden">
         <div class="inline-block w-8 h-8 border-2 border-stone-200 border-t-stone-900 rounded-full animate-spin"></div>
         <p class="text-sm text-stone-400 mt-3">Loading your wishlist...</p>
     </div>
@@ -47,12 +58,14 @@
     });
 
     var ids = JSON.parse(localStorage.getItem('hw_wishlist') || '[]');
+    var skeleton = document.getElementById('wishlist-skeleton');
     var loading = document.getElementById('wishlist-loading');
     var empty = document.getElementById('wishlist-empty');
     var grid = document.getElementById('wishlist-grid');
     var countEl = document.getElementById('wishlist-count');
 
     if (ids.length === 0) {
+        skeleton.classList.add('hidden');
         loading.classList.add('hidden');
         empty.classList.remove('hidden');
         countEl.textContent = '0 items';
@@ -66,6 +79,7 @@
     })
     .then(function(res) { return res.json(); })
     .then(function(products) {
+        skeleton.classList.add('hidden');
         loading.classList.add('hidden');
         countEl.textContent = products.length + ' item' + (products.length !== 1 ? 's' : '');
 
@@ -102,6 +116,7 @@
         grid.innerHTML = html;
     })
     .catch(function() {
+        skeleton.classList.add('hidden');
         loading.classList.add('hidden');
         empty.classList.remove('hidden');
     });

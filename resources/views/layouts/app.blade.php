@@ -56,11 +56,25 @@
         .panel-overlay.open { opacity: 1; visibility: visible; }
 
         /* Search Panel */
-        .search-panel { transform: translateX(100%); transition: transform 0.4s ease; }
+        .search-panel { transform: translateX(100%); transition: transform 0.4s ease; overflow-x: hidden; }
         .search-panel.open { transform: translateX(0); }
 
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+        #search-results { -ms-overflow-style: none; scrollbar-width: none; }
+        #search-results::-webkit-scrollbar { display: none; }
+
+        /* Skeleton Loader */
+        .skeleton { position: relative; overflow: hidden; background: #e7e5e4; border-radius: 0.5rem; }
+        .skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: skeleton-shimmer 1.5s ease-in-out infinite; }
+        @keyframes skeleton-shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .skeleton-text { height: 0.75rem; width: 100%; }
+        .skeleton-text-sm { height: 0.625rem; width: 60%; }
+        .skeleton-title { height: 1.25rem; width: 80%; }
+        .skeleton-img { width: 100%; aspect-ratio: 3/4; border-radius: 0.75rem; }
+        .skeleton-img-sm { width: 100%; height: 8rem; border-radius: 0.5rem; }
+        .skeleton-circle { width: 3rem; height: 3rem; border-radius: 9999px; }
+        .skeleton-btn { height: 2.5rem; width: 6rem; border-radius: 9999px; }
 
         /* === Global Hover Effects === */
         .btn-hover {
@@ -210,16 +224,26 @@
                 </button>
             </div>
             <div class="relative">
-                <input id="search-input" type="text" placeholder="Search products..." oninput="handleSearch(this.value)" class="w-full px-4 py-3 pr-10 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-900 text-sm">
+                <input id="search-input" type="text" placeholder="Search with product Title, ID..." oninput="handleSearch(this.value)" class="w-full px-4 py-3 pr-10 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-stone-900 text-sm">
                 <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </div>
-            <div id="search-suggestions" class="mt-4">
+            <div id="search-suggestions" class="mt-4 hidden">
                 <p class="text-xs text-stone-400 uppercase tracking-wider font-medium">Start typing to search...</p>
             </div>
-            <div id="search-loading" class="hidden mt-4 text-center py-8">
-                <div class="inline-block w-6 h-6 border-2 border-stone-200 border-t-stone-900 rounded-full animate-spin"></div>
+            <div id="search-loading" class="hidden mt-2">
+                <div class="space-y-2">
+                    @for($i = 0; $i < 4; $i++)
+                    <div class="flex items-center gap-3 py-2">
+                        <div class="skeleton shrink-0" style="width:56px;height:70px;border-radius:0.5rem"></div>
+                        <div class="flex-1">
+                            <div class="skeleton skeleton-text mb-2" style="width:70%"></div>
+                            <div class="skeleton skeleton-text-sm" style="width:40%"></div>
+                        </div>
+                    </div>
+                    @endfor
+                </div>
             </div>
-            <div id="search-results" class="mt-2 space-y-2 max-h-[60vh] overflow-y-auto"></div>
+            <div id="search-results" class="mt-2 max-h-[60vh] overflow-y-auto overflow-x-hidden"></div>
         </div>
     </div>
 
@@ -298,7 +322,7 @@
             {{-- Content --}}
             <div class="p-8 text-center">
                 <img src="{{ asset('images/Black-Logo.png') }}" alt="Humam Élite" class="w-20 h-20 object-contain mx-auto rounded-full">
-                <p class="text-stone-500 text-sm mt-5 leading-relaxed">Welcome to HUMAM ÉLITE — discover premium fashion and accessories crafted for the modern woman.</p>
+                <p class="text-stone-500 text-sm mt-5 leading-relaxed"><strong class="text-stone-900 font-semibold">Welcome</strong> to HUMAM ÉLITE — discover premium fashion and accessories crafted for the modern woman.</p>
                 <button onclick="closeWelcomePopup()" class="btn-hover mt-7 w-full bg-stone-900 hover:bg-stone-800 text-white py-3.5 rounded-xl text-sm font-semibold tracking-wide transition">
                     Start Shopping
                 </button>
@@ -336,11 +360,52 @@
         function openSearch() {
             document.getElementById('search-overlay').classList.add('open');
             document.getElementById('search-panel').classList.add('open');
-            setTimeout(() => document.getElementById('search-input').focus(), 300);
+            setTimeout(function() {
+                document.getElementById('search-input').focus();
+                loadSuggestions();
+            }, 300);
         }
         function closeSearch() {
             document.getElementById('search-overlay').classList.remove('open');
             document.getElementById('search-panel').classList.remove('open');
+        }
+
+        function loadSuggestions() {
+            var resultsDiv = document.getElementById('search-results');
+            var loadingDiv = document.getElementById('search-loading');
+            var suggestionsDiv = document.getElementById('search-suggestions');
+            loadingDiv.classList.remove('hidden');
+            suggestionsDiv.classList.add('hidden');
+            fetch('/search?q=')
+                .then(function(res) { return res.json(); })
+                .then(function(products) {
+                    loadingDiv.classList.add('hidden');
+                    if (products.length === 0) {
+                        suggestionsDiv.classList.remove('hidden');
+                        return;
+                    }
+                    var html = '<p class="text-xs text-stone-400 uppercase tracking-wider font-medium mb-3">Suggestions</p>';
+                    products.forEach(function(p) {
+                        var priceHtml = 'PKR ' + Number(p.price).toLocaleString();
+                        if (p.discount && p.discount > 0) {
+                            var dp = p.discount_type === 'percent' ? p.price - (p.price * p.discount / 100) : p.price - p.discount;
+                            priceHtml = '<span class="text-red-600 font-semibold">PKR ' + Number(Math.round(dp)).toLocaleString() + '</span> <span class="line-through text-stone-400 ml-1">PKR ' + Number(p.price).toLocaleString() + '</span>';
+                        }
+                        html += '<a href="' + p.url + '" class="flex items-center gap-3 py-3 border-b border-stone-100 hover:bg-stone-50 transition rounded-lg">' +
+                            '<img src="' + p.image + '" class="w-14 h-[70px] object-cover rounded shrink-0">' +
+                            '<div class="flex-1 min-w-0">' +
+                                '<p class="text-sm font-medium text-stone-800 truncate">' + p.title + '</p>' +
+                                (p.unique_code ? '<p class="text-xs text-stone-400 mt-0.5">' + p.unique_code + '</p>' : '') +
+                                '<p class="text-sm mt-1">' + priceHtml + '</p>' +
+                            '</div>' +
+                            '</a>';
+                    });
+                    resultsDiv.innerHTML = html;
+                })
+                .catch(function() {
+                    loadingDiv.classList.add('hidden');
+                    suggestionsDiv.classList.remove('hidden');
+                });
         }
 
         let searchTimeout = null;
@@ -353,7 +418,10 @@
             if (value.trim().length < 2) {
                 resultsDiv.innerHTML = '';
                 loadingDiv.classList.add('hidden');
-                suggestionsDiv.classList.remove('hidden');
+                suggestionsDiv.classList.add('hidden');
+                if (value.trim().length === 0) {
+                    loadSuggestions();
+                }
                 return;
             }
 
@@ -366,20 +434,18 @@
                     .then(products => {
                         loadingDiv.classList.add('hidden');
                         if (products.length === 0) {
-                            resultsDiv.innerHTML = '<p class="text-sm text-stone-400 text-center py-4">No products found</p>';
+                            resultsDiv.innerHTML = '<p class="text-sm text-stone-400 text-center py-8">No products found for "<strong class="text-stone-600">' + value.trim() + '</strong>"</p>';
                             return;
                         }
-                        let html = '';
+                        var html = '<p class="text-xs text-stone-400 uppercase tracking-wider font-medium mb-3">Results (' + products.length + ')</p>';
                         products.forEach(function(p) {
-                            let priceHtml = 'PKR ' + Number(p.price).toLocaleString();
+                            var priceHtml = 'PKR ' + Number(p.price).toLocaleString();
                             if (p.discount && p.discount > 0) {
-                                let discountPrice = p.discount_type === 'percent'
-                                    ? p.price - (p.price * p.discount / 100)
-                                    : p.price - p.discount;
-                                priceHtml = '<span class="text-red-600 font-semibold">PKR ' + Number(Math.round(discountPrice)).toLocaleString() + '</span> <span class="line-through text-stone-400 ml-1">PKR ' + Number(p.price).toLocaleString() + '</span>';
+                                var dp = p.discount_type === 'percent' ? p.price - (p.price * p.discount / 100) : p.price - p.discount;
+                                priceHtml = '<span class="text-red-600 font-semibold">PKR ' + Number(Math.round(dp)).toLocaleString() + '</span> <span class="line-through text-stone-400 ml-1">PKR ' + Number(p.price).toLocaleString() + '</span>';
                             }
-                            html += '<a href="' + p.url + '" class="flex items-center gap-4 py-3 border-b border-stone-100 hover:bg-stone-50 transition rounded-lg px-2 -mx-2">' +
-                                '<img src="' + p.image + '" class="w-14 h-18 object-cover rounded">' +
+                            html += '<a href="' + p.url + '" class="flex items-center gap-3 py-3 border-b border-stone-100 hover:bg-stone-50 transition rounded-lg">' +
+                                '<img src="' + p.image + '" class="w-14 h-[70px] object-cover rounded shrink-0">' +
                                 '<div class="flex-1 min-w-0">' +
                                     '<p class="text-sm font-medium text-stone-800 truncate">' + p.title + '</p>' +
                                     (p.unique_code ? '<p class="text-xs text-stone-400 mt-0.5">' + p.unique_code + '</p>' : '') +
@@ -391,7 +457,7 @@
                     })
                     .catch(function() {
                         loadingDiv.classList.add('hidden');
-                        resultsDiv.innerHTML = '<p class="text-sm text-stone-400 text-center py-4">Search failed. Try again.</p>';
+                        resultsDiv.innerHTML = '<p class="text-sm text-stone-400 text-center py-8">Search failed. Please try again.</p>';
                     });
             }, 300);
         }
