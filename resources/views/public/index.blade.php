@@ -187,7 +187,6 @@
             <div class="w-full md:w-1/2">
                 <p class="text-sm font-bold tracking-[0.15em] text-stone-800 uppercase mb-4">New Products</p>
                 <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-stone-900 mb-6 uppercase leading-tight break-words">{{ $newArrival->title }}</h2>
-
                 <a href="{{ route('products.show', $newArrival) }}" class="btn-hover inline-block bg-stone-900 text-white px-10 py-3 hover:bg-stone-800 transition text-sm uppercase tracking-[0.2em] font-bold">Buy Now</a>
             </div>
         </div>

@@ -13,7 +13,7 @@ class ProductController extends Controller
     {
         $featuredProducts = Product::latest()->take(5)->get();
 
-        $newArrival = Product::whereNotNull('video')->where('video', '!=', '')->latest()->first() ?? Product::latest()->first();
+        $newArrival = Product::latest()->first();
 
         $videoProducts = Product::whereNotNull('video')->where('video', '!=', '')->latest()->take(8)->get();
 

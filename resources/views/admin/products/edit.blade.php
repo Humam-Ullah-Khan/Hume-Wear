@@ -318,8 +318,8 @@
     // Set old value
     var oldDesc = document.getElementById('description-input').value;
     if (oldDesc) quill.root.innerHTML = oldDesc;
-    // Sync on submit
-    document.querySelector('form').addEventListener('submit', function() {
+    // Sync on every change
+    quill.on('text-change', function() {
         document.getElementById('description-input').value = quill.root.innerHTML;
     });
 </script>
