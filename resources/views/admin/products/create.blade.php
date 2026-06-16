@@ -107,7 +107,13 @@
                 {{-- Category --}}
                 <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
                     <label class="block text-sm font-medium text-stone-800 mb-3">Category</label>
-                    <input type="text" name="category" value="{{ old('category') }}" placeholder="Enter category name" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                    <input type="text" name="category" value="{{ old('category') }}" placeholder="e.g. Unstitched, Ready to Wear" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                </div>
+
+                {{-- Fabric --}}
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <label class="block text-sm font-medium text-stone-800 mb-3">Fabric</label>
+                    <input type="text" name="fabric" value="{{ old('fabric') }}" placeholder="e.g. Cotton, Linen, Silk, Lawn, Chiffon" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                 </div>
 
                 {{-- Product Video --}}

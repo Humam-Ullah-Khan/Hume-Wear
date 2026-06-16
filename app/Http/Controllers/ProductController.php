@@ -51,10 +51,50 @@ class ProductController extends Controller
         return view('public.index', compact('featuredProducts', 'categories', 'newArrival', 'heroSlides', 'videoProducts'));
     }
 
-    public function products()
+    public function products(Request $request)
     {
-        $products = Product::latest()->get();
-        return view('public.products', compact('products'));
+        $query = Product::query();
+
+        // Price range
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // Category
+        if ($request->filled('category')) {
+            $categories = $request->category;
+            $query->where(function ($q) use ($categories) {
+                foreach ($categories as $cat) {
+                    $q->orWhere('category', $cat);
+                }
+            });
+        }
+
+        // Sort
+        switch ($request->input('sort', 'newest')) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'best_selling':
+                $query->orderBy('id', 'desc');
+                break;
+            default:
+                $query->latest();
+        }
+
+        $products = $query->get();
+
+        // Filter options from DB
+        $allCategories = Product::whereNotNull('category')->where('category', '!=', '')->distinct()->pluck('category')->sort()->values();
+        $maxPrice = (int) Product::max('price');
+
+        return view('public.products', compact('products', 'allCategories', 'maxPrice'));
     }
 
     public function show(Product $product)

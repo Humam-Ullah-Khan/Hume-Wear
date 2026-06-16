@@ -22,6 +22,7 @@ class Product extends Model
         'primary_image',
         'video',
         'category',
+        'fabric',
         'visibility',
         'notes',
     ];
