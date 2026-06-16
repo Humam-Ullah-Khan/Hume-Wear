@@ -276,8 +276,8 @@
                     <nav class="space-y-3">
                         <a href="#" class="block text-sm text-stone-500 hover:text-stone-900 transition">About Us</a>
                         <a href="{{ url('/contact') }}" class="block text-sm text-stone-500 hover:text-stone-900 transition">Contact Us</a>
-                        <a href="#" class="block text-sm text-stone-500 hover:text-stone-900 transition">Track Your Order</a>
-                        <a href="#" class="block text-sm text-stone-500 hover:text-stone-900 transition">FAQs</a>
+                        <a href="{{ url('/products') }}" class="block text-sm text-stone-500 hover:text-stone-900 transition">Shop</a>
+                        <a href="{{ url('/faq') }}" class="block text-sm text-stone-500 hover:text-stone-900 transition">FAQs</a>
                     </nav>
                 </div>
             </div>
