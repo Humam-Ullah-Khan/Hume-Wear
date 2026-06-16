@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us - Hume Wear')
+@section('title', 'Contact Us - Humam Élite')
 
 @section('content')
 <section class="pt-32 pb-16 bg-[#fafaf9]">
@@ -20,7 +20,7 @@
 
                 {{-- Image Card --}}
                 <div class="rounded-2xl overflow-hidden mb-8 shadow-sm">
-                    <img src="{{ asset('images/contact-us-page-banner.jpg') }}" alt="Contact Hume Wear" class="w-full h-[320px] md:h-[400px] object-cover">
+                    <img src="{{ asset('images/contact-us-page-banner.jpg') }}" alt="Contact Humam Élite" class="w-full h-[320px] md:h-[400px] object-cover">
                 </div>
 
                 {{-- Contact Info Cards --}}

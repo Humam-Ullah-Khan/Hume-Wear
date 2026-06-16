@@ -18,7 +18,7 @@ class NewsletterController extends Controller
         $subject = 'New Newsletter Subscription';
         $body = "A new user subscribed to the newsletter.\n\nEmail: {$request->email}\n\nTimestamp: " . now()->format('Y-m-d H:i:s');
         $headers = [
-            'From' => config('app.name', 'Hume Wear'),
+            'From' => config('app.name', 'Humam Élite'),
             'Reply-To' => $request->email,
             'Content-Type' => 'text/plain; charset=UTF-8',
         ];

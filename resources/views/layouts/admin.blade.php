@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin - Hume Wear')</title>
+    <title>@yield('title', 'Admin - Humam Élite')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -37,7 +37,7 @@
     <div class="min-h-screen flex flex-col lg:flex-row">
         {{-- Mobile Header --}}
         <div class="lg:hidden fixed top-0 left-0 right-0 z-30 bg-stone-900 text-white px-4 py-3 flex items-center justify-between">
-            <span class="text-xl font-bold font-logo">HUME WEAR</span>
+            <span class="text-xl font-bold font-logo">HUMAM ÉLITE</span>
             <button onclick="toggleSidebar()" class="p-2 rounded hover:bg-stone-800 transition">
                 <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -54,7 +54,7 @@
         {{-- Sidebar --}}
         <aside id="sidebar" class="fixed lg:static inset-y-0 left-0 z-[26] w-64 bg-stone-900 text-stone-300 p-6 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto">
             <div class="flex items-center justify-between mb-8 lg:block">
-                <h2 class="text-2xl font-bold text-white font-logo">HUME WEAR</h2>
+                <h2 class="text-2xl font-bold text-white font-logo">HUMAM ÉLITE</h2>
                 <button onclick="toggleSidebar()" class="lg:hidden p-2 text-stone-400 hover:text-white transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

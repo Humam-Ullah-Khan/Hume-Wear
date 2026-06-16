@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->title . ' - Hume Wear')
+@section('title', $product->title . ' - Humam Élite')
 
 @section('content')
 @php

@@ -19,7 +19,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>HUME WEAR</h1>
+            <h1>HUMAM ÉLITE</h1>
         </div>
         <div class="body">
             <p style="font-size: 16px; color: #374151; margin: 0 0 25px 0;">You received a new message from the contact form:</p>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="footer">
-            <p>This message was sent via the Hume Wear contact form.</p>
+            <p>This message was sent via the Humam Élite contact form.</p>
         </div>
     </div>
 </body>

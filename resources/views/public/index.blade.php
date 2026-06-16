@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Hume Wear - Women's Fashion & Accessories")
+@section('title', "Humam Élite - Women's Fashion & Accessories")
 
 @section('hero')
 {{-- Hero Section --}}
@@ -435,7 +435,7 @@
 
     function shareToWhatsApp() {
         if (!currentModalProduct) return;
-        window.open('https://wa.me/?text=' + encodeURIComponent('Check out ' + currentModalProduct.title + ' at HUME WEAR ' + currentModalProduct.productUrl), '_blank');
+        window.open('https://wa.me/?text=' + encodeURIComponent('Check out ' + currentModalProduct.title + ' at HUMAM ÉLITE ' + currentModalProduct.productUrl), '_blank');
     }
 
     function shareToPinterest() {

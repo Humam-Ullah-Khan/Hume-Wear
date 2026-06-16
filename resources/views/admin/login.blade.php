@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Hume Wear</title>
+    <title>Admin Login - Humam Élite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -28,7 +28,7 @@
 
     <div class="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
         <div class="w-full max-w-sm">
-            <h1 class="text-4xl font-bold text-stone-900 mb-1 font-logo">HUME WEAR</h1>
+            <h1 class="text-4xl font-bold text-stone-900 mb-1 font-logo">HUMAM ÉLITE</h1>
             <p class="text-stone-400 text-sm mb-10">Admin Panel</p>
 
             @if ($errors->any())
@@ -50,7 +50,7 @@
                 <button type="submit" class="w-full bg-stone-900 text-white py-2.5 rounded hover:bg-stone-800 transition font-medium text-sm">Sign In</button>
             </form>
 
-            <p class="text-center text-xs text-stone-400 mt-8">Hume Wear &copy; {{ date('Y') }}</p>
+            <p class="text-center text-xs text-stone-400 mt-8">Humam Élite &copy; {{ date('Y') }}</p>
         </div>
     </div>
 </body>

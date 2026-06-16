@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Hume Wear - Fashion & Accessories')</title>
+    <title>@yield('title', 'Humam Élite - Fashion & Accessories')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -134,8 +134,8 @@
                 </button>
 
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('images/Logo-In-White.png') }}" alt="HUME WEAR" class="h-14 md:h-16 nav-logo-white">
-                    <img src="{{ asset('images/Logo.png') }}" alt="HUME WEAR" class="h-14 md:h-16 nav-logo-dark hidden">
+                    <img src="{{ asset('images/Logo-In-White.png') }}" alt="HUMAM ÉLITE" class="h-14 md:h-16 nav-logo-white">
+                    <img src="{{ asset('images/Logo.png') }}" alt="HUMAM ÉLITE" class="h-14 md:h-16 nav-logo-dark hidden">
                 </a>
 
                 <div class="flex items-center gap-1">
@@ -160,7 +160,7 @@
     <div class="menu-panel fixed top-0 left-0 w-full max-w-sm h-full bg-white z-[71] shadow-2xl" id="menu-panel">
         <div class="p-8">
             <div class="flex items-center justify-between mb-10">
-                <img src="{{ asset('images/Logo.png') }}" alt="HUME WEAR" class="h-14">
+                <img src="{{ asset('images/Logo.png') }}" alt="HUMAM ÉLITE" class="h-14">
                 <button onclick="closeMenu()" class="btn-hover text-stone-400 hover:text-stone-900 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
@@ -237,7 +237,7 @@
             <div class="flex flex-col md:flex-row md:justify-between gap-12">
                 {{-- Left: Logo + Contact --}}
                 <div class="max-w-md">
-                    <img src="{{ asset('images/Logo.png') }}" alt="HUME WEAR" class="h-14 md:h-16">
+                    <img src="{{ asset('images/Logo.png') }}" alt="HUMAM ÉLITE" class="h-14 md:h-16">
                     <div class="mt-8 space-y-2 text-sm text-stone-400 leading-relaxed">
                         <p>Location: {{ $siteSettings['address'] }}</p>
                         <p>Call: {{ $siteSettings['phone'] }}</p>
@@ -260,7 +260,7 @@
 
             {{-- Bottom Bar --}}
             <div class="mt-14 pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-xs text-stone-400">&copy; {{ date('Y') }} HUME WEAR. All rights reserved.</p>
+                <p class="text-xs text-stone-400">&copy; {{ date('Y') }} HUMAM ÉLITE. All rights reserved.</p>
                 <div class="flex gap-4">
                     @if($siteSettings['youtube'])
                     <a href="{{ $siteSettings['youtube'] }}" target="_blank" class="text-stone-400 hover:text-stone-900 transition">
@@ -297,8 +297,8 @@
             </button>
             {{-- Content --}}
             <div class="p-8 text-center">
-                <img src="{{ asset('images/Black-Logo.png') }}" alt="Hume Wear" class="w-20 h-20 object-contain mx-auto rounded-full">
-                <p class="text-stone-500 text-sm mt-5 leading-relaxed">Welcome to HUME WEAR — discover premium fashion and accessories crafted for the modern woman.</p>
+                <img src="{{ asset('images/Black-Logo.png') }}" alt="Humam Élite" class="w-20 h-20 object-contain mx-auto rounded-full">
+                <p class="text-stone-500 text-sm mt-5 leading-relaxed">Welcome to HUMAM ÉLITE — discover premium fashion and accessories crafted for the modern woman.</p>
                 <button onclick="closeWelcomePopup()" class="btn-hover mt-7 w-full bg-stone-900 hover:bg-stone-800 text-white py-3.5 rounded-xl text-sm font-semibold tracking-wide transition">
                     Start Shopping
                 </button>
