@@ -44,6 +44,10 @@
         }
         .navbar.at-top { top: 36px; background: transparent; }
         .navbar.scrolled { top: 0; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .navbar.at-top .nav-logo-white { display: block; }
+        .navbar.at-top .nav-logo-dark { display: none !important; }
+        .navbar.scrolled .nav-logo-white { display: none; }
+        .navbar.scrolled .nav-logo-dark { display: block !important; }
 
         /* Mobile Menu Panel */
         .menu-panel { transform: translateX(-100%); transition: transform 0.4s ease; }
@@ -121,7 +125,7 @@
 
     {{-- Navbar --}}
     <nav class="navbar at-top" id="main-nav">
-        <div class="max-w-[1400px] mx-auto px-6 py-5">
+        <div class="max-w-[1400px] mx-auto px-6 py-2.5">
             <div class="flex justify-between items-center">
                 <button class="nav-icon p-2" onclick="openMenu()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,7 +134,8 @@
                 </button>
 
                 <a href="{{ url('/') }}">
-                    <span class="text-2xl md:text-3xl font-bold tracking-[0.15em] font-logo nav-text">HUME WEAR</span>
+                    <img src="{{ asset('images/Logo-In-White.png') }}" alt="HUME WEAR" class="h-14 md:h-16 nav-logo-white">
+                    <img src="{{ asset('images/Logo.png') }}" alt="HUME WEAR" class="h-14 md:h-16 nav-logo-dark hidden">
                 </a>
 
                 <div class="flex items-center gap-1">
@@ -155,7 +160,7 @@
     <div class="menu-panel fixed top-0 left-0 w-full max-w-sm h-full bg-white z-[71] shadow-2xl" id="menu-panel">
         <div class="p-8">
             <div class="flex items-center justify-between mb-10">
-                <span class="text-xl font-bold tracking-[0.15em] font-logo text-stone-900">HUME WEAR</span>
+                <img src="{{ asset('images/Logo.png') }}" alt="HUME WEAR" class="h-14">
                 <button onclick="closeMenu()" class="btn-hover text-stone-400 hover:text-stone-900 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"/>
@@ -228,11 +233,11 @@
 
     {{-- Footer --}}
     <footer class="bg-white border-t border-stone-200">
-        <div class="max-w-[1400px] mx-auto px-8 md:px-12 py-14 md:py-20">
+        <div class="max-w-[1400px] mx-auto px-8 md:px-12 pt-14 pb-6 md:pt-20 md:pb-8">
             <div class="flex flex-col md:flex-row md:justify-between gap-12">
                 {{-- Left: Logo + Contact --}}
                 <div class="max-w-md">
-                    <span class="text-4xl md:text-5xl font-bold tracking-[0.25em] font-logo text-stone-900">HUME WEAR</span>
+                    <img src="{{ asset('images/Logo.png') }}" alt="HUME WEAR" class="h-14 md:h-16">
                     <div class="mt-8 space-y-2 text-sm text-stone-400 leading-relaxed">
                         <p>Location: {{ $siteSettings['address'] }}</p>
                         <p>Call: {{ $siteSettings['phone'] }}</p>
@@ -292,7 +297,7 @@
             </button>
             {{-- Content --}}
             <div class="p-8 text-center">
-                <img src="{{ asset('images/logo-transparent.png') }}" alt="Hume Wear" class="w-20 h-20 object-contain mx-auto">
+                <img src="{{ asset('images/Black-Logo.png') }}" alt="Hume Wear" class="w-20 h-20 object-contain mx-auto rounded-full">
                 <p class="text-stone-500 text-sm mt-5 leading-relaxed">Welcome to HUME WEAR — discover premium fashion and accessories crafted for the modern woman.</p>
                 <button onclick="closeWelcomePopup()" class="btn-hover mt-7 w-full bg-stone-900 hover:bg-stone-800 text-white py-3.5 rounded-xl text-sm font-semibold tracking-wide transition">
                     Start Shopping

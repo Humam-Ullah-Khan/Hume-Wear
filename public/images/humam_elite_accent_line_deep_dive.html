@@ -1,0 +1,188 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&family=EB+Garamond:wght@400;500&display=swap');
+  .sec-label { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 14px; }
+  .card { background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 28px 24px 20px; margin-bottom: 12px; }
+  .logo-stage { display: flex; align-items: center; justify-content: center; min-height: 100px; }
+  .tag { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--color-border-secondary); color: var(--color-text-secondary); background: var(--color-background-primary); margin-right: 6px; margin-bottom: 4px; display: inline-block; }
+  .anatomy-row { display: flex; gap: 12px; margin-bottom: 12px; }
+  .anatomy-item { flex: 1; background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px 14px; }
+  .anatomy-title { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: .08em; text-transform: uppercase; margin: 0 0 4px; }
+  .anatomy-val { font-size: 13px; color: var(--color-text-primary); }
+  .divider { border: none; border-top: 1px solid var(--color-border-tertiary); margin: 24px 0; }
+  .mock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mock-card { background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 18px 16px; display: flex; align-items: center; justify-content: center; min-height: 90px; }
+  .mock-label { font-size: 11px; color: var(--color-text-tertiary); text-align: center; margin-top: 8px; }
+  .step-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+  .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--color-background-primary); border: 1px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--color-text-secondary); flex-shrink: 0; }
+  .step-text { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; padding-top: 2px; }
+  .cta-btn { background: var(--color-background-primary); border: 1px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 10px 18px; font-size: 13px; color: var(--color-text-primary); cursor: pointer; margin-right: 8px; margin-top: 4px; }
+  .cta-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<div style="padding: 24px 20px 16px">
+
+  <div class="sec-label">Style 04 — Accent line · Deep dive</div>
+
+  <!-- Hero logo -->
+  <div class="card" style="margin-bottom:24px">
+    <div class="logo-stage">
+      <div style="text-align:center">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif; font-size:36px; font-weight:400; letter-spacing:8px; color:var(--color-text-primary); line-height:1">Humam Élite</div>
+        <div style="width:200px; height:1.5px; background:#C9A84C; margin:10px auto 10px"></div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif; font-size:11px; letter-spacing:10px; color:var(--color-text-secondary); text-transform:uppercase">Est. 2025 · Pakistan</div>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <span class="tag">Heritage serif</span>
+      <span class="tag">Gold rule</span>
+      <span class="tag">Mixed case</span>
+      <span class="tag">Gul Ahmed energy</span>
+    </div>
+  </div>
+
+  <!-- Anatomy -->
+  <div class="sec-label">Logo anatomy — 4 elements</div>
+  <div class="anatomy-row">
+    <div class="anatomy-item">
+      <div class="anatomy-title">Wordmark</div>
+      <div class="anatomy-val">Cormorant Garamond · 400 weight</div>
+    </div>
+    <div class="anatomy-item">
+      <div class="anatomy-title">Gold rule</div>
+      <div class="anatomy-val">1.5px line · #C9A84C gold</div>
+    </div>
+  </div>
+  <div class="anatomy-row">
+    <div class="anatomy-item">
+      <div class="anatomy-title">Tagline</div>
+      <div class="anatomy-val">Spaced caps · 10–11px</div>
+    </div>
+    <div class="anatomy-item">
+      <div class="anatomy-title">É accent</div>
+      <div class="anatomy-val">Keep the accent — signals luxury</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Font options -->
+  <div class="sec-label">Font options — pick one</div>
+  <div class="card">
+    <div class="logo-stage" style="flex-direction:column;gap:28px;min-height:auto;padding:8px 0">
+
+      <div style="text-align:center;cursor:pointer" onclick="sendPrompt('Which font works best for Humam Élite logo — Cormorant or Playfair?')">
+        <div style="font-size:10px;letter-spacing:.1em;color:var(--color-text-tertiary);margin-bottom:6px;text-transform:uppercase">Cormorant Garamond — most elegant</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:6px;color:var(--color-text-primary)">Humam Élite</div>
+        <div style="width:160px;height:1.5px;background:#C9A84C;margin:8px auto"></div>
+      </div>
+
+      <div style="text-align:center;cursor:pointer" onclick="sendPrompt('Which font works best for Humam Élite logo — Cormorant or Playfair?')">
+        <div style="font-size:10px;letter-spacing:.1em;color:var(--color-text-tertiary);margin-bottom:6px;text-transform:uppercase">Playfair Display — bolder, stronger</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:400;letter-spacing:4px;color:var(--color-text-primary)">Humam Élite</div>
+        <div style="width:160px;height:1.5px;background:#C9A84C;margin:8px auto"></div>
+      </div>
+
+      <div style="text-align:center;cursor:pointer" onclick="sendPrompt('Which font works best for Humam Élite logo — Cormorant or Playfair?')">
+        <div style="font-size:10px;letter-spacing:.1em;color:var(--color-text-tertiary);margin-bottom:6px;text-transform:uppercase">EB Garamond — classic, timeless</div>
+        <div style="font-family:'EB Garamond',Georgia,serif;font-size:30px;font-weight:400;letter-spacing:5px;color:var(--color-text-primary)">Humam Élite</div>
+        <div style="width:160px;height:1.5px;background:#C9A84C;margin:8px auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Color variations -->
+  <div class="sec-label">Gold line — color options</div>
+  <div class="mock-grid">
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:6px">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;letter-spacing:4px;color:#0A0A0A">Humam Élite</div>
+        <div style="width:120px;height:1.5px;background:#C9A84C"></div>
+      </div>
+      <div class="mock-label">Classic gold · #C9A84C</div>
+    </div>
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:6px">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;letter-spacing:4px;color:#0A0A0A">Humam Élite</div>
+        <div style="width:120px;height:1.5px;background:#8B6914"></div>
+      </div>
+      <div class="mock-label">Deep gold · #8B6914</div>
+    </div>
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:6px;background:#0A0A0A">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;letter-spacing:4px;color:#F5F0E8">Humam Élite</div>
+        <div style="width:120px;height:1.5px;background:#C9A84C"></div>
+      </div>
+      <div class="mock-label">Dark bg version</div>
+    </div>
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:6px;background:#1A2744">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;letter-spacing:4px;color:#F9F4EC">Humam Élite</div>
+        <div style="width:120px;height:1.5px;background:#C9A84C"></div>
+      </div>
+      <div class="mock-label">Navy bg version</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Where it works -->
+  <div class="sec-label">Where this logo shines</div>
+  <div class="mock-grid" style="margin-bottom:24px">
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:4px;background:#F9F4EC">
+        <div style="font-size:10px;color:#888;letter-spacing:.06em;margin-bottom:4px">SHOPPING BAG</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;letter-spacing:3px;color:#1A1A1A">Humam Élite</div>
+        <div style="width:80px;height:1px;background:#C9A84C"></div>
+      </div>
+      <div class="mock-label">Packaging</div>
+    </div>
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:4px">
+        <div style="font-size:9px;letter-spacing:.1em;color:var(--color-text-tertiary);margin-bottom:2px">PROFILE</div>
+        <div style="width:48px;height:48px;border-radius:50%;border:1px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center">
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;color:var(--color-text-primary)">H É</div>
+        </div>
+      </div>
+      <div class="mock-label">Instagram avatar</div>
+    </div>
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:4px;background:#0A0A0A">
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;letter-spacing:3px;color:#F5F0E8">Humam Élite</div>
+        <div style="width:70px;height:1px;background:#C9A84C"></div>
+        <div style="font-size:9px;letter-spacing:.1em;color:#888;margin-top:2px">humamelite.com</div>
+      </div>
+      <div class="mock-label">Website header</div>
+    </div>
+    <div>
+      <div class="mock-card" style="flex-direction:column;gap:4px;background:#F9F4EC">
+        <div style="font-size:9px;color:#888;letter-spacing:.1em">HANG TAG</div>
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;letter-spacing:3px;color:#1A1A1A">Humam Élite</div>
+        <div style="width:60px;height:1px;background:#C9A84C"></div>
+        <div style="font-size:8px;letter-spacing:.1em;color:#888">EST. 2025</div>
+      </div>
+      <div class="mock-label">Clothing tag</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- How to build it -->
+  <div class="sec-label">How to create this logo — step by step</div>
+  <div class="step-row"><div class="step-num">1</div><div class="step-text">Go to <strong>Canva.com</strong> → Create design → Custom size 800×400px</div></div>
+  <div class="step-row"><div class="step-num">2</div><div class="step-text">Add text → type "Humam Élite" → set font to <strong>Cormorant Garamond</strong> or <strong>Playfair Display</strong></div></div>
+  <div class="step-row"><div class="step-num">3</div><div class="step-text">Add a thin horizontal line below the name → color it <strong>#C9A84C</strong> (gold)</div></div>
+  <div class="step-row"><div class="step-num">4</div><div class="step-text">Add small text below line: "EST. 2025" in wide letter-spacing, light weight</div></div>
+  <div class="step-row"><div class="step-num">5</div><div class="step-text">Export as <strong>PNG</strong> (transparent bg) for social media + <strong>PDF</strong> for print</div></div>
+
+  <div class="divider"></div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    <button class="cta-btn" onclick="sendPrompt('Write an Instagram bio for Humam Élite brand')">Write Instagram bio ↗</button>
+    <button class="cta-btn" onclick="sendPrompt('Suggest taglines for Humam Élite brand')">Get tagline ideas ↗</button>
+    <button class="cta-btn" onclick="sendPrompt('Create a brand color palette for Humam Élite')">Full color palette ↗</button>
+  </div>
+
+</div>
