@@ -178,12 +178,12 @@ class AdminProductController extends Controller
             ->orderByRaw("CAST(SUBSTRING(unique_code, 4) AS UNSIGNED) DESC")
             ->first();
 
-        if ($lastProduct && preg_match('/^HW-(\d+)$/', $lastProduct->unique_code, $matches)) {
+        if ($lastProduct && preg_match('/^HE-(\d+)$/', $lastProduct->unique_code, $matches)) {
             $nextNumber = (int) $matches[1] + 1;
         } else {
             $nextNumber = 1;
         }
 
-        return 'HW-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        return 'HE-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
     }
 }

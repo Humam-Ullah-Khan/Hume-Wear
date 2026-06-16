@@ -112,7 +112,7 @@
                 </button>
             </div>
 
-            <p class="text-xs text-stone-400 uppercase tracking-wider mb-5">SKU: {{ $product->unique_code ?? 'HW-' . str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</p>
+            <p class="text-xs text-stone-400 uppercase tracking-wider mb-5">SKU: {{ $product->unique_code ?? 'HE-' . str_pad($product->id, 3, '0', STR_PAD_LEFT) }}</p>
 
             {{-- Price --}}
             <div class="flex items-center gap-3 mb-6">
