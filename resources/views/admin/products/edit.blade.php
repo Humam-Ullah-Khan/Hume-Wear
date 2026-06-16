@@ -53,7 +53,8 @@
                         <div class="flex items-center justify-between mb-1.5">
                             <label class="block text-sm font-medium text-stone-600">Description</label>
                         </div>
-                        <textarea name="description" rows="6" class="w-full px-4 py-2.5 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none">{{ old('description', $product->description) }}</textarea>
+                        <div id="quill-editor"></div>
+                        <input type="hidden" name="description" id="description-input" value="{{ old('description', $product->description) }}">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -300,5 +301,26 @@
         const div = btn.closest('div[data-new]');
         if (div) div.remove();
     }
+
+    // Quill Editor
+    var quill = new Quill('#quill-editor', {
+        theme: 'snow',
+        placeholder: 'Write product description...',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['align'],
+                ['link']
+            ]
+        }
+    });
+    // Set old value
+    var oldDesc = document.getElementById('description-input').value;
+    if (oldDesc) quill.root.innerHTML = oldDesc;
+    // Sync on submit
+    document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('description-input').value = quill.root.innerHTML;
+    });
 </script>
 @endsection
